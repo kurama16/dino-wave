@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 3646196269905753280}
   - component: {fileID: 3798077144317096901}
   - component: {fileID: 6145489898135725277}
-  - component: {fileID: -6842874160619322166}
+  - component: {fileID: -384274671067649855}
   m_Layer: 0
   m_Name: LaserTurretPrefab
   m_TagString: Untagged
@@ -141,7 +141,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-6842874160619322166
+--- !u!114 &-384274671067649855
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,9 +154,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turretName: Laser Turret
+  shootingPoint: {fileID: 7621423343432173241}
   model: {fileID: 0}
   thumbnail: {fileID: 0}
-  cost: 0
-  damage: 0
-  health: 0
-  attackSpeed: 0
+  cost: 1
+  damage: 10
+  health: 1000
+  range: 10
+  attackSpeed: 1
+  laserPrefab: {fileID: 3519367412885574296, guid: 9da0e7c9a6528c24b8d37fe20becc22f, type: 3}

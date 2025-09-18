@@ -5,14 +5,16 @@ public abstract class Turret : MonoBehaviour
 {
     [Header("Configuration")]
     [SerializeField] protected string turretName;
+    [SerializeField] protected Transform shootingPoint;
     [SerializeField] GameObject model;
     [SerializeField] Image thumbnail;
 
     [Header("Stats")]
-    [SerializeField] protected int cost;
-    [SerializeField] protected float damage;
-    [SerializeField] protected float health;
-    [SerializeField] protected float attackSpeed;
+    [SerializeField] protected int cost = 1;
+    [SerializeField] protected float damage = 10f;
+    [SerializeField] protected float health = 1000f;
+    [SerializeField] protected float range = 10f;
+    [SerializeField] protected float attackSpeed = 1f;
 
     public string TurretName
     {

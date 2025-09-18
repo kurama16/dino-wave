@@ -356,7 +356,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1323531790}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9732395
+  m_Size: 0.9999605
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -657,7 +657,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 168274935}
   m_HandleRect: {fileID: 168274934}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -714,6 +714,7 @@ GameObject:
   - component: {fileID: 720544121}
   - component: {fileID: 720544120}
   - component: {fileID: 720544119}
+  - component: {fileID: 720544124}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -825,6 +826,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &720544124
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720544118}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!1 &727454381
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,6 +865,7 @@ GameObject:
   - component: {fileID: 727454384}
   - component: {fileID: 727454383}
   - component: {fileID: 727454382}
+  - component: {fileID: 727454386}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -935,6 +964,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &727454386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727454381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73ee3f16e82a7ce46b937364fe9b658c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 50
 --- !u!1 &793794952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1435,7 +1477,7 @@ MonoBehaviour:
   contentParent: {fileID: 1841569154}
   optionPrefab: {fileID: 8305993483289529074, guid: 7e9f6b224d5cf754aac5e1fe77245942, type: 3}
   turretOptions:
-  - {fileID: -6842874160619322166, guid: a0a63d50f0b56424cb42387fabdda125, type: 3}
+  - {fileID: -384274671067649855, guid: a0a63d50f0b56424cb42387fabdda125, type: 3}
 --- !u!1 &1839953908
 GameObject:
   m_ObjectHideFlags: 0
@@ -1607,7 +1649,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -503.49988, y: -280}
+  m_AnchoredPosition: {x: -503.499, y: -280}
   m_SizeDelta: {x: 0, y: 301}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1841569156
@@ -1889,7 +1931,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1024, y: 576}
+  m_SizeDelta: {x: 1024, y: 600}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2144135732
 MonoBehaviour:
