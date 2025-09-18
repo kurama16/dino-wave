@@ -470,10 +470,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9a7cce4e50d5d341a206cdc469c45a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1190935986}
-  Offset: {x: 0, y: 15, z: -8}
-  SmoothSpeed: 10
-  TiltAngle: 60
+  player: {fileID: 1190935986}
+  offset: {x: 0, y: 12, z: -8}
+  smoothSpeed: 10
+  tiltAngle: 60
 --- !u!114 &1236085289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -767,7 +767,7 @@ GameObject:
   - component: {fileID: 1665437967}
   - component: {fileID: 1665437971}
   m_Layer: 3
-  m_Name: Sphere
+  m_Name: Proyectil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

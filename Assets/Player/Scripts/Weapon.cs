@@ -28,7 +28,7 @@ public class Weapon : MonoBehaviour
 
         if (rb != null)
         {
-            rb.velocity = FirePoint.forward * ProjectileSpeed;
+            rb.linearVelocity = FirePoint.forward * ProjectileSpeed;
         }
 
         if (projectileCollider != null && PlayerCollider != null)

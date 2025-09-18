@@ -2,29 +2,21 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    
-    public Transform Player; 
+    [SerializeField] private Transform player;
+    [SerializeField] private Vector3 offset = new Vector3(0, 12, -8);
+    [SerializeField] private float smoothSpeed = 10f;
+    [SerializeField] private float tiltAngle = 60f;
 
-    
-    public Vector3 Offset = new Vector3(0, 12, -8);
-    public float SmoothSpeed = 10f;
-    public float TiltAngle = 60f;
-
-    
     private Vector3 _smoothedPosition;
 
     void LateUpdate()
     {
-        if (Player == null) return;
+        if (player == null) return;
 
-       
-        Vector3 desiredPosition = Player.position + Offset;
-
-       
-        _smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, SmoothSpeed * Time.deltaTime);
+        Vector3 desiredPosition = player.position + offset;
+        _smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
         transform.position = _smoothedPosition;
 
-        
-        transform.rotation = Quaternion.Euler(TiltAngle, 0f, 0f);
+        transform.rotation = Quaternion.Euler(tiltAngle, 0f, 0f);
     }
 }
