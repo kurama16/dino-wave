@@ -10,15 +10,10 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private int enemyAmount = 8;
     [SerializeField] private int maxWaves = 8;
     [SerializeField] private int currentWave = 0;
-    [SerializeField] private TMP_Text nextWaveText; 
+    [SerializeField] private TMP_Text nextWaveText;
+    [SerializeField] private TMP_Text waveCount;
 
-    private float timer;
-
-
-    void Awake()
-    {
-        timer = timeBetweenWaves;
-    }
+    private float timer = 0;
 
     void Update()
     {
@@ -43,7 +38,7 @@ public class WaveManager : MonoBehaviour
 
     private void UpdateWaveText() {
 
-        if (nextWaveText == null)
+        if (nextWaveText == null || waveCount == null)
         {
             return;
         }
@@ -55,6 +50,8 @@ public class WaveManager : MonoBehaviour
         {
             nextWaveText.text = "Last wave";
         }
+        waveCount.text = "Wave " + currentWave + "/" + maxWaves;
+
 
     }
 
