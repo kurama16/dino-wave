@@ -433,7 +433,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1190935981}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39e131d4e8fe8254d8cee0d31d180cab, type: 3}
+  m_Script: {fileID: 11500000, guid: ffe531d0e9923f54dacf18bedf88fe2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
@@ -470,10 +470,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9a7cce4e50d5d341a206cdc469c45a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1190935986}
-  offset: {x: 0, y: 12, z: -8}
-  smoothSpeed: 10
-  tiltAngle: 60
 --- !u!114 &1236085289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -747,12 +743,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06a326db645dc2346a77f0a98dd03a09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 1665437966}
-  FirePoint: {fileID: 1331729762}
-  ProjectileSpeed: 20
-  FireRate: 0.5
-  ProjectileLifetime: 5
-  PlayerCollider: {fileID: 0}
 --- !u!1 &1665437966
 GameObject:
   m_ObjectHideFlags: 0
