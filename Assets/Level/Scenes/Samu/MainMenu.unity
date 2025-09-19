@@ -339,7 +339,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1632965646455155545, guid: 059493803087cf14ca0564f4938a55bb, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -100
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 1632965646455155545, guid: 059493803087cf14ca0564f4938a55bb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -713,7 +713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1632965646455155545, guid: 059493803087cf14ca0564f4938a55bb, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: -215
       objectReference: {fileID: 0}
     - target: {fileID: 1632965646455155545, guid: 059493803087cf14ca0564f4938a55bb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -876,8 +876,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281743043
-  m_fontColor: {r: 0.764151, g: 0.21266466, b: 0.21266466, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
