@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 
-public interface IDamageable { void TakeDamage(float amount); }
-
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
 public class PlayerController : MonoBehaviour, IDamageable
 {

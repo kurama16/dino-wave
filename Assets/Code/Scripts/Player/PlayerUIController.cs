@@ -2,33 +2,33 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerUIControllerInternal : MonoBehaviour
+public class PlayerUIController : MonoBehaviour
 {
     [Header("Referencias")]
     [Tooltip("Player Controller Component")]
-    [SerializeField] PlayerController playerController;
+    [SerializeField] PlayerHealth playerHealth;
     [Tooltip("Health image to fill")]
     [SerializeField] Image healthFill;
     [SerializeField] TextMeshProUGUI healthText;
 
     void OnEnable()
     {
-        if (!playerController) return;
-        playerController.OnHealthChanged += HandleHealthChanged;
+        if (!playerHealth) return;
+        playerHealth.OnPlayerHealthChanged += HandleHealthChanged;
     }
 
     private void Start()
     {
         // Refrescar UI al habilitar
-        HandleHealthChanged(playerController.GetCurrentHealth(), playerController.GetMaxHealth());
+        HandleHealthChanged(playerHealth.GetCurrentHealth(), playerHealth.GetMaxHealth());
     }
 
     void OnDisable()
     {
-        if (!playerController) 
+        if (!playerHealth) 
             return;
         
-        playerController.OnHealthChanged -= HandleHealthChanged;
+        playerHealth.OnPlayerHealthChanged -= HandleHealthChanged;
     }
 
     void HandleHealthChanged(float current, float max)
