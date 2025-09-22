@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
-    [Header("Salud")]
+    [Header("Health")]
     [Tooltip("Enemy max health")]
     [SerializeField] private float MaxHealth = 100f;
     

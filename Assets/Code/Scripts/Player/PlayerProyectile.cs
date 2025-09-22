@@ -16,7 +16,7 @@ public class PlayerProyectile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            if (other.GetComponent<Collider>().TryGetComponent<IDamageable>(out var target))
+            if (other.TryGetComponent<IDamageable>(out var target))
             {
                 target.TakeDamage(damage);
             }

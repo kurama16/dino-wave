@@ -4,12 +4,15 @@ using UnityEngine.UI;
 
 public class EnemyUIController : MonoBehaviour
 {
-    [Header("Referencias")]
+    [Header("References")]
     [Tooltip("Enemy Health Component")]
-    [SerializeField] EnemyHealth enemyHealth;
+    [SerializeField] private EnemyHealth enemyHealth;
     [Tooltip("Health image to fill")]
-    [SerializeField] Image healthFill;
-    [SerializeField] TextMeshProUGUI healthText;
+    [SerializeField] private Image healthFill;
+    [Tooltip("Health text (Optional)")]
+    [SerializeField] private TextMeshProUGUI healthText;
+    [Tooltip("Camera to look at (main camera is not assigned)")]
+    [SerializeField] private Camera targetCamera;
 
     void OnEnable()
     {
@@ -21,6 +24,14 @@ public class EnemyUIController : MonoBehaviour
     {
         // Refrescar UI al habilitar
         HandleHealthChanged(enemyHealth.GetCurrentHealth(), enemyHealth.GetMaxHealth());
+    }
+
+    private void LateUpdate()
+    {
+        if (targetCamera == null)
+            targetCamera = Camera.main;
+
+        transform.LookAt(transform.position + targetCamera.transform.rotation * Vector3.forward, targetCamera.transform.rotation * Vector3.up);
     }
 
     void OnDisable()

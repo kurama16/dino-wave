@@ -5,7 +5,7 @@ public interface IDamageable { void TakeDamage(float amount); }
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    [Header("Salud")]
+    [Header("Health")]
     [Tooltip("Player max health")]
     [SerializeField] private float MaxHealth = 100f;
 
@@ -16,13 +16,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void Awake()
     {
         _currentHealth = MaxHealth;
-        Debug.LogWarning("Eliminar GetKeyDown M en PlayerHealth script antes de hacer el push");
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.M))
-            this.TakeDamage(10);
     }
 
     public float GetCurrentHealth() => _currentHealth;
@@ -35,5 +28,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         _currentHealth = Mathf.Max(0, _currentHealth - amount);
         OnPlayerHealthChanged?.Invoke(_currentHealth, MaxHealth);
+
+        if(_currentHealth == 0)
+            Die();
+    }
+
+    private void Die()
+    {
+        gameObject.SetActive(false);
+        Debug.Log("Player has die");
     }
 }
