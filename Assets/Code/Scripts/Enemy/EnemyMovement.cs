@@ -11,23 +11,11 @@ public class EnemyMovement : MonoBehaviour
 
     private void Awake()
     {
+        GameObject playerObject = GameObject.Find("Player");
+        if (playerObject != null)
+            playerTransform = playerObject.transform;
 
-        if (playerTransform == null)
-        {
-
-            GameObject playerObject = GameObject.Find("Player");
-            if(playerObject != null)
-            {
-                playerTransform = playerObject.transform; 
-            }
-
-        }
-
-        if( navAgent == null )
-        {
-            navAgent = GetComponent<NavMeshAgent>();
-
-        }
+        navAgent = GetComponent<NavMeshAgent>();
     }
 
 

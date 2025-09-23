@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class PlayerUIController : MonoBehaviour
 {
-    [Header("Referencias")]
+    [Header("References")]
     [Tooltip("Player Controller Component")]
     [SerializeField] PlayerHealth playerHealth;
     [Tooltip("Health image to fill")]
