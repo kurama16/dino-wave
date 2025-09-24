@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bac103f0bc5c424ca4f1789ebdb6ddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turretName: 
-  shootingPoint: {fileID: 0}
+  turretName: Laser Turret
+  shootingPoint: {fileID: 7621423343432173241}
   model: {fileID: 0}
   thumbnail: {fileID: 0}
   cost: 1
@@ -162,4 +162,4 @@ MonoBehaviour:
   health: 1000
   range: 10
   attackSpeed: 1
-  laserPrefab: {fileID: 0}
+  laserPrefab: {fileID: 3519367412885574296, guid: 880e9d8d7cc9ba34d9cba2dd8a75a911, type: 3}

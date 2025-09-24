@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class Laser : MonoBehaviour
 {
@@ -25,7 +24,7 @@ public class Laser : MonoBehaviour
 
         if (Vector3.Distance(transform.position, target.position) < 0.2f)
         {
-            //target.GetComponent<Enemy>()?.TakeDamage(damage);
+            target.GetComponent<IDamageable>()?.TakeDamage(damage);
             Destroy(gameObject);
         }
     }
