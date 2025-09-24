@@ -28,9 +28,10 @@ public class PlayerController : MonoBehaviour, IDamageable
     private float _currentHealth;
     private Rigidbody rb;
     private bool isGrounded;
+    private bool isDead;
 
     public event Action<float, float> OnHealthChanged;
-
+    public event Action OnPlayerDie;
     public float GetCurrentHealth() => _currentHealth;
     public float GetMaxHealth() => MaxHealth;
 
@@ -44,7 +45,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         PlayerMovement();
         if (Input.GetKeyDown(KeyCode.M))
-            this.TakeDamage(10);
+            this.TakeDamage(50);
     }
 
     void FixedUpdate()
@@ -110,5 +111,20 @@ public class PlayerController : MonoBehaviour, IDamageable
 
         _currentHealth = Mathf.Max(0, _currentHealth - amount);
         OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
+        if(_currentHealth == 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        if (isDead) return;
+        
+        Debug.Log("Player Die");
+
+        isDead = true;
+        OnPlayerDie?.Invoke();
+        gameObject.SetActive(false);
     }
 }
