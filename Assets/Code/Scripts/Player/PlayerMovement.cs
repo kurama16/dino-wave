@@ -1,10 +1,14 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Animator))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 720f;
+
+    [Header("Animations")]
+    [SerializeField] private Animator animator;
 
     private Rigidbody _rb;
     private Vector3 _moveDirection;
@@ -12,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
+        
     }
 
     void Update()
@@ -36,7 +42,10 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+
         Vector3 velocity = _moveDirection * moveSpeed;
+        float forwardValue = Vector3.Dot(velocity, _moveDirection);
+        animator.SetFloat("forward", forwardValue);
         _rb.MovePosition(_rb.position + velocity * Time.fixedDeltaTime);
     }
 }
