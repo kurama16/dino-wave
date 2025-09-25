@@ -118,6 +118,7 @@ MonoBehaviour:
   enemyHealth: {fileID: 3830153987458318155}
   healthFill: {fileID: 2874321633128562915}
   healthText: {fileID: 0}
+  targetCamera: {fileID: 0}
 --- !u!1 &7313679733296889624
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,6 +135,7 @@ GameObject:
   - component: {fileID: 5481984743409415673}
   - component: {fileID: 3830153987458318155}
   - component: {fileID: 7357588992476792116}
+  - component: {fileID: 2751233391000535061}
   m_Layer: 0
   m_Name: Enemy_Prefab
   m_TagString: Enemy
@@ -300,6 +302,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amount: 10
   tickInterval: 1
+--- !u!114 &2751233391000535061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7313679733296889624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53f96de6cb2ebfb4784572bef9dee0b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 30
+  timeGapTransform: {fileID: 5419432136277143910, guid: 67105c0174f026d449d3db136894807f, type: 3}
+  playerTransform: {fileID: 0}
 --- !u!1001 &1313597257061338595
 PrefabInstance:
   m_ObjectHideFlags: 0
