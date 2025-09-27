@@ -30,9 +30,10 @@ public class EnemyMovement : MonoBehaviour
     {
         if (playerTransform != null)
         {
-
+            Vector3 dir = playerTransform.position - transform.position;
+            dir.y = 0f;
             navAgent.SetDestination(playerTransform.position);
-            transform.LookAt(playerTransform);
+            transform.LookAt(dir);
         }
     }
 

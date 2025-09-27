@@ -17,6 +17,7 @@ public class Laser : MonoBehaviour
         if (target == null)
         {
             Destroy(gameObject);
+            return;
         }
 
         Vector3 dir = (target.position - transform.position).normalized;
