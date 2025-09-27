@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
@@ -10,6 +11,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     private float _currentHealth;
 
     public event Action<float, float> OnEnemyHealthChanged;
+    public UnityEvent OnEnemyDie;
 
     private void Awake()
     {
@@ -33,6 +35,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        OnEnemyDie?.Invoke();
         Destroy(gameObject);
     }
 }

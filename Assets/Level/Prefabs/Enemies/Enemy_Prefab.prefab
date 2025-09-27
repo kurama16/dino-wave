@@ -288,6 +288,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 40
+  OnEnemyDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7357588992476792116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,8 +330,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionRadius: 30
-  timeGapTransform: {fileID: 5419432136277143910, guid: 67105c0174f026d449d3db136894807f, type: 3}
   playerTransform: {fileID: 0}
+  damageAmount: 10
+  tickInterval: 1
 --- !u!1001 &1313597257061338595
 PrefabInstance:
   m_ObjectHideFlags: 0
