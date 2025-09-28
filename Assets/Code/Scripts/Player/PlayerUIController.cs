@@ -63,12 +63,14 @@ public class PlayerUIController : MonoBehaviour
 
     public void ShowDefeatPanel()
     {
+        MusicManager.Instance.PlayLose();
         defeatPanel.gameObject.SetActive(true);
         StartCoroutine(FadeIn(defeatPanel));
     }
 
     public void ShowVictoryPanel()
     {
+        MusicManager.Instance.PlayWin();
         victoryPanel.gameObject.SetActive(true);
         StartCoroutine(FadeIn(victoryPanel));
     }

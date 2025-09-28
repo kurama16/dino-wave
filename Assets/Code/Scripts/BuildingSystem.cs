@@ -99,7 +99,7 @@ public class BuildingSystem : MonoBehaviour
         {
             return;
         }
-
+        AudioManager.Instance.PlayBuild();
         Vector3 nearestPos = nearestPoint.transform.position;
         Vector3 spawnPos = new Vector3(nearestPos.x, turret.transform.position.y, nearestPos.z);
 

@@ -39,6 +39,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (amount <= 0)
             return;
 
+        AudioManager.Instance.PlayPlayerHit();
+
         _currentHealth = Mathf.Max(0, _currentHealth - amount);
         OnPlayerHealthChanged?.Invoke(_currentHealth, maxHealth);
 
