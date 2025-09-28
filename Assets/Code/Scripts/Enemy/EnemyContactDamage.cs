@@ -13,7 +13,6 @@ public class EnemyContactDamage : MonoBehaviour
     {
         if (other.CompareTag("Player") && other.TryGetComponent<IDamageable>(out var target))
         {
-            Debug.Log("Enter enemy: " + gameObject.name);
             _playerInside = true;
             _timer = 0f;
             target.TakeDamage(amount);
@@ -27,7 +26,6 @@ public class EnemyContactDamage : MonoBehaviour
             _timer += Time.deltaTime;
             if (_timer >= tickInterval)
             {
-                Debug.Log("Stay enemy: " + gameObject.name);
                 target.TakeDamage(amount);
                 _timer = 0f;
             }
@@ -38,7 +36,6 @@ public class EnemyContactDamage : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Exit enemy: " + gameObject.name);
             _playerInside = false;
         }
     }

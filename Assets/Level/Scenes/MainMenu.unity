@@ -755,6 +755,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_Button_Option
       objectReference: {fileID: 0}
+    - target: {fileID: 2216662239034097327, guid: 059493803087cf14ca0564f4938a55bb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2977002175745028178, guid: 059493803087cf14ca0564f4938a55bb, type: 3}
       propertyPath: m_Name
       value: UI_Button_Label_Option
@@ -1038,6 +1042,22 @@ PrefabInstance:
     - target: {fileID: 912631544992405921, guid: 059493803087cf14ca0564f4938a55bb, type: 3}
       propertyPath: m_Color.a
       value: 0.7490196
+      objectReference: {fileID: 0}
+    - target: {fileID: 941856185051154699, guid: 059493803087cf14ca0564f4938a55bb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1657043512}
+    - target: {fileID: 941856185051154699, guid: 059493803087cf14ca0564f4938a55bb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QuitGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 941856185051154699, guid: 059493803087cf14ca0564f4938a55bb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LoaderManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 941856185051154699, guid: 059493803087cf14ca0564f4938a55bb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1632965646455155545, guid: 059493803087cf14ca0564f4938a55bb, type: 3}
       propertyPath: m_Pivot.x
