@@ -23,6 +23,7 @@ public class Weapon : MonoBehaviour
     private void Shoot()
     {
         GameObject projectile = Instantiate(ProjectilePrefab, FirePoint.position, FirePoint.rotation);
+        AudioManager.Instance.PlayShoot();
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         Collider projectileCollider = projectile.GetComponent<Collider>();
 
