@@ -6,28 +6,47 @@ public class EnemyContactDamage : MonoBehaviour
     [SerializeField] private float amount = 10f;
     [SerializeField] private float tickInterval = 1f;
 
-    private float _timer;
-    private bool _playerInside;
+    private float _playerContactDamageTimer;
+    private bool _playerInContact;
+    private float _breachContactDamageTimer;
+    private bool _breachInContact;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && other.TryGetComponent<IDamageable>(out var target))
+        if (other.CompareTag("Player") && other.TryGetComponent<IDamageable>(out var playerTarget))
         {
-            _playerInside = true;
-            _timer = 0f;
-            target.TakeDamage(amount);
+            _playerInContact = true;
+            _playerContactDamageTimer = 0f;
+            playerTarget.TakeDamage(amount);
+        }
+
+        if(other.CompareTag("TimeGap") && other.TryGetComponent<IDamageable>(out var breachTarget))
+        {
+            _breachInContact = true;
+            _breachContactDamageTimer = 0f;
+            breachTarget.TakeDamage(amount);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (_playerInside && other.CompareTag("Player") && other.TryGetComponent<IDamageable>(out var target))
+        if (_playerInContact && other.CompareTag("Player") && other.TryGetComponent<IDamageable>(out var playerTarget))
         {
-            _timer += Time.deltaTime;
-            if (_timer >= tickInterval)
+            _playerContactDamageTimer += Time.deltaTime;
+            if (_playerContactDamageTimer >= tickInterval)
             {
-                target.TakeDamage(amount);
-                _timer = 0f;
+                playerTarget.TakeDamage(amount);
+                _playerContactDamageTimer = 0f;
+            }
+        }
+
+        if (_breachInContact && other.CompareTag("TimeGap") && other.TryGetComponent<IDamageable>(out var breachTarget))
+        {
+            _breachContactDamageTimer += Time.deltaTime;
+            if (_breachContactDamageTimer >= tickInterval)
+            {
+                breachTarget.TakeDamage(amount);
+                _breachContactDamageTimer = 0f;
             }
         }
     }
@@ -36,7 +55,12 @@ public class EnemyContactDamage : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            _playerInside = false;
+            _playerInContact = false;
+        }
+
+        if (other.CompareTag("TimeGap"))
+        {
+            _breachInContact = false;
         }
     }
 }
