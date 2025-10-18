@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: -748769513501119462}
   - component: {fileID: -8631272191700255278}
   - component: {fileID: -6063339927032752379}
+  - component: {fileID: -6614747528668511242}
   m_Layer: 0
   m_Name: Enemy_Prefab
   m_TagString: Enemy
@@ -547,6 +548,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-6614747528668511242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7313679733296889624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26754e0cc8d2eba4ea9d0272152c57fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xpPrefab: {fileID: 8333239532340908099, guid: 152f7fef15b77b544a51d14d62a5d486, type: 3}
+  xpAmount: 1
 --- !u!1001 &1313597257061338595
 PrefabInstance:
   m_ObjectHideFlags: 0
