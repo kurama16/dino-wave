@@ -5,6 +5,7 @@ public class PauseManager : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject SoundPanel;
 
     [Header("Events")]
     public UnityEvent OnPaused;
@@ -48,6 +49,7 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1f;
 
         if (pausePanel) pausePanel.SetActive(false);
+        if (SoundPanel) SoundPanel.SetActive(false);
         OnResumed?.Invoke();
     }
 }

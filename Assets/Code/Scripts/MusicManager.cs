@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 
 public class MusicManager : MonoBehaviour
 {
     public static MusicManager Instance;
+
+    [Header("Mixer Routing")]
+    [SerializeField] private AudioMixerGroup musicGroup;
 
     [Header("Background Music")]
     [SerializeField] private AudioClip mainMenuMusic;
@@ -22,6 +26,9 @@ public class MusicManager : MonoBehaviour
 
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.loop = true;
+
+        if (musicGroup != null)
+            audioSource.outputAudioMixerGroup = musicGroup;
     }
     void Start()
     {
@@ -46,12 +53,7 @@ public class MusicManager : MonoBehaviour
         if (clip == null) return;
         audioSource.Stop();
         audioSource.clip = clip;
-        audioSource.volume = 0.35f;
+        //audioSource.volume = 0.35f;
         audioSource.Play();
-    }
-
-    public void SetVolume(float v)
-    {
-        audioSource.volume = Mathf.Clamp01(v);
     }
 }
