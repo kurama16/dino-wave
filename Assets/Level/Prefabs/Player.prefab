@@ -544,6 +544,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3ba5df55de38cf04d86504dab0da7464, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1355268143108519556}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3ba5df55de38cf04d86504dab0da7464, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4664402148864401395}
   m_SourcePrefab: {fileID: 100100000, guid: 3ba5df55de38cf04d86504dab0da7464, type: 3}
 --- !u!4 &1336776588066458302 stripped
 Transform:
@@ -594,7 +597,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d26b4bfb07e11d4bacef63023665cc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 100
+  maxHealth: 100
+  startingLives: 3
+  playerSpawnPoint: {fileID: 0}
 --- !u!114 &8214925156137971908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,6 +614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   rotationSpeed: 720
+  animator: {fileID: 0}
 --- !u!65 &1355268143108519556
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -630,3 +636,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-4664402148864401395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857452915802951684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb1e05bfc315cd8479457af1fe3b7eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevel: 1
+  enemiesToLevelUp: 4
+  currentXP: 0
+  xpPickupRange: 1

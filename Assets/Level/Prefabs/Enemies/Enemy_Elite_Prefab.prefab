@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: -6846025807592453004}
   - component: {fileID: -7915839987303969315}
   - component: {fileID: 2245085310055477581}
+  - component: {fileID: 3094314270250893086}
   m_Layer: 0
   m_Name: Enemy_Elite_Prefab
   m_TagString: Enemy
@@ -318,6 +319,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3094314270250893086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3635851601213352312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26754e0cc8d2eba4ea9d0272152c57fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xpPrefab: {fileID: 8333239532340908099, guid: 152f7fef15b77b544a51d14d62a5d486, type: 3}
+  xpAmount: 1
 --- !u!1 &5513635147821158082
 GameObject:
   m_ObjectHideFlags: 0

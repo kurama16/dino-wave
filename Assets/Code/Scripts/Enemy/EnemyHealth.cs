@@ -7,7 +7,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     [Header("Health")]
     [Tooltip("Enemy max health")]
     [SerializeField] private float MaxHealth = 100f;
-    
+
     private float _currentHealth;
 
     public event Action<float, float> OnEnemyHealthChanged;
@@ -23,8 +23,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
-        if (amount <= 0)
-            return;
+        if (amount <= 0) return;
 
         _currentHealth = Mathf.Max(0, _currentHealth - amount);
         OnEnemyHealthChanged?.Invoke(_currentHealth, MaxHealth);
@@ -34,8 +33,11 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     }
 
     private void Die()
-    {
-        OnEnemyDie?.Invoke();
-        Destroy(gameObject);
-    }
+{
+    EnemyXPDrop xpDrop = GetComponent<EnemyXPDrop>();
+    if (xpDrop != null) xpDrop.DropXP(); 
+
+    OnEnemyDie?.Invoke();
+    Destroy(gameObject);
+}
 }

@@ -19,23 +19,16 @@ public class BuildingSystem : MonoBehaviour
 
     private GameObject buildPointGizmo;
     private GameObject nearestPoint;
+    private PlayerXP playerXP;
 
     void Awake()
     {
-        if (player == null)
-        {
-            throw new InvalidOperationException("Player cannot be null");
-        }
+        if (player == null) throw new InvalidOperationException("Player no asignado");
+        if (buildingPoints == null || buildingPoints.Count == 0) throw new InvalidOperationException("Building points vacíos");
+        if (buildPointGizmoPrefab == null) throw new InvalidOperationException("No se asignó buildPointGizmoPrefab");
 
-        if (buildingPoints == null || buildingPoints.Count == 0)
-        {
-            throw new InvalidOperationException("Building points are null or empty");
-        }
-
-        if (buildPointGizmoPrefab == null)
-        {
-            throw new InvalidOperationException("No build point gizmo provided");
-        }
+        playerXP = player.GetComponent<PlayerXP>();
+        if (playerXP == null) throw new InvalidOperationException("El Player no tiene PlayerXP asignado");
 
         buildPointGizmo = Instantiate(buildPointGizmoPrefab, Vector3.zero, buildPointGizmoPrefab.transform.rotation);
         buildPointGizmo.SetActive(false);
@@ -59,19 +52,15 @@ public class BuildingSystem : MonoBehaviour
 
     private GameObject GetActiveNearestBuildingPoint()
     {
-        // No me interesa el eje Y para calcular la distancia
-        Vector2 playerPosition = new Vector2(player.transform.position.x, player.transform.position.z);
+        Vector2 playerPos = new Vector2(player.transform.position.x, player.transform.position.z);
 
         foreach (GameObject buildPoint in buildingPoints)
         {
-            if (!buildPoint.activeSelf)
-            {
-                continue;
-            }
+            if (!buildPoint.activeSelf) continue;
 
-            Vector2 buildPointPosition = new Vector2(buildPoint.transform.position.x, buildPoint.transform.position.z);
+            Vector2 buildPointPos = new Vector2(buildPoint.transform.position.x, buildPoint.transform.position.z);
 
-            if (Vector2.Distance(playerPosition, buildPointPosition) < distanceTreshold)
+            if (Vector2.Distance(playerPos, buildPointPos) < distanceTreshold)
             {
                 ShowGizmo(buildPoint.transform.position);
                 return buildPoint;
@@ -95,16 +84,26 @@ public class BuildingSystem : MonoBehaviour
 
     public void BuildTurret(Turret turret)
     {
-        if (nearestPoint == null)
-        {
-            return;
-        }
-        AudioManager.Instance.PlayBuild();
-        Vector3 nearestPos = nearestPoint.transform.position;
-        Vector3 spawnPos = new Vector3(nearestPos.x, turret.transform.position.y, nearestPos.z);
+        if (nearestPoint == null) return;
 
-        nearestPoint.SetActive(false);
-        Instantiate(turret, spawnPos, Quaternion.identity);
-        buildingUIManager.CloseBuildMenu();
+        int playerLevel = playerXP.CurrentLevel;
+        int nextLevelRequirement = playerXP.NextTurretLevelRequirement();
+
+        if (playerLevel >= nextLevelRequirement)
+        {
+            playerXP.RegisterTurretBuild();
+
+            AudioManager.Instance.PlayBuild();
+            Vector3 nearestPos = nearestPoint.transform.position;
+            Vector3 spawnPos = new Vector3(nearestPos.x, turret.transform.position.y, nearestPos.z);
+
+            nearestPoint.SetActive(false);
+            Instantiate(turret, spawnPos, Quaternion.identity);
+            buildingUIManager.CloseBuildMenu();
+        }
+        else
+        {
+            Debug.Log($"No puedes construir esta torreta todavía. Nivel requerido: {nextLevelRequirement}");
+        }
     }
 }
