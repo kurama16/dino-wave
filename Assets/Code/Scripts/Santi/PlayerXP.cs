@@ -3,40 +3,14 @@ using UnityEngine;
 public class PlayerXP : MonoBehaviour
 {
     [SerializeField] private int currentLevel = 1;
-    [SerializeField] private int enemiesToLevelUp = 4;
     [SerializeField] private int currentXP = 0;
+    [SerializeField] private int xpToNextLevel = 4;
     [SerializeField] private float xpPickupRange = 2f;
 
-    private int enemiesDefeated = 0;
-
     private int turretBuiltCount = 0;
-    private readonly int[] turretLevelRequirements = new int[4] { 2, 4, 6, 8 };
+    [SerializeField] private int[] turretLevelRequirements = new int[4] { 2, 4, 6, 8 };
 
     public int CurrentLevel => currentLevel;
-
-    public int NextTurretLevelRequirement()
-    {
-        if (turretBuiltCount >= turretLevelRequirements.Length) return int.MaxValue;
-        return turretLevelRequirements[turretBuiltCount];
-    }
-
-    public bool CanBuildTurret()
-    {
-        return currentLevel >= NextTurretLevelRequirement();
-    }
-
-    public void RegisterTurretBuild()
-    {
-        turretBuiltCount++;
-    }
-
-    public void ResetXPAndTurrets()
-    {
-        currentLevel = 1;
-        currentXP = 0;
-        enemiesDefeated = 0;
-        turretBuiltCount = 0;
-    }
 
     void Update()
     {
@@ -53,10 +27,9 @@ public class PlayerXP : MonoBehaviour
     private void CollectXP(GameObject xpObject)
     {
         currentXP++;
-        enemiesDefeated++;
         Destroy(xpObject);
 
-        if (enemiesDefeated >= enemiesToLevelUp)
+        if (currentXP >= xpToNextLevel)
         {
             LevelUp();
         }
@@ -65,7 +38,23 @@ public class PlayerXP : MonoBehaviour
     private void LevelUp()
     {
         currentLevel++;
-        enemiesDefeated = 0;
+        currentXP = 0;
         Debug.Log("Player subió de nivel a: " + currentLevel);
+    }
+
+    public int NextTurretLevelRequirement()
+    {
+        if (turretBuiltCount >= turretLevelRequirements.Length) return int.MaxValue;
+        return turretLevelRequirements[turretBuiltCount];
+    }
+
+    public void RegisterTurretBuild()
+    {
+        turretBuiltCount++;
+    }
+
+    public void ResetTurretBuilds()
+    {
+        turretBuiltCount = 0;
     }
 }

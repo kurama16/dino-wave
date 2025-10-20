@@ -5,13 +5,7 @@ public class EnemyXPDrop : MonoBehaviour
     [SerializeField] GameObject xpPrefab;
     [SerializeField] int xpAmount = 1;
 
-    public void Die()
-    {
-        DropXP();
-        Destroy(gameObject);
-    }
-
-    void DropXP()
+    public void DropXP()
     {
         for (int i = 0; i < xpAmount; i++)
         {

@@ -35,7 +35,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     private void Die()
 {
     EnemyXPDrop xpDrop = GetComponent<EnemyXPDrop>();
-    if (xpDrop != null) xpDrop.Die();
+    if (xpDrop != null) xpDrop.DropXP(); 
 
     OnEnemyDie?.Invoke();
     Destroy(gameObject);
