@@ -2981,7 +2981,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 898635485}
   m_HandleRect: {fileID: 898635484}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3905,7 +3905,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
     - target: {fileID: 9052374783252606237, guid: 67105c0174f026d449d3db136894807f, type: 3}
       propertyPath: maxHealth
-      value: 150000
+      value: 200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
