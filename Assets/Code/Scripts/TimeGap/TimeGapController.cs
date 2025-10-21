@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class TimeGapController : MonoBehaviour, IDamageable
 {
+    [Header("TimeGap stats")]
     [SerializeField] private float maxHealth = 150f;
+
+    [Header("TimeGap levitation movement")]
     [SerializeField] private float floatAmplitude = 0.5f;
     [SerializeField] private float floatFrequency = 2f;
     
@@ -12,6 +15,7 @@ public class TimeGapController : MonoBehaviour, IDamageable
     private bool _isDead = false;
 
     public event Action<float, float> OnTimeGapHealthChanged;
+    public event Action OnTimeGapDestroy;
 
     private void Awake()
     {
@@ -43,7 +47,11 @@ public class TimeGapController : MonoBehaviour, IDamageable
         OnTimeGapHealthChanged?.Invoke(_currentHealth, maxHealth);
 
         if (_currentHealth <= 0)
+        {
             Die();
+            OnTimeGapDestroy.Invoke();
+        }
+            
     }
 
     private void Die()

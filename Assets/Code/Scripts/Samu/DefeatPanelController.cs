@@ -27,7 +27,6 @@ public class DefeatPanelController : MonoBehaviour
 
     public void ShowDefeatPanel()
     {
-        Debug.Log("ShowDefeatPanel");
         defeatPanel.gameObject.SetActive(true);
         StartCoroutine(FadeIn());
     }

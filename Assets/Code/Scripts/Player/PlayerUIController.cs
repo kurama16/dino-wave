@@ -7,11 +7,19 @@ public class PlayerUIController : MonoBehaviour
     [Header("References")]
     [Tooltip("Player Controller Component")]
     [SerializeField] PlayerHealth playerHealth;
+    [SerializeField] PlayerXP playerXP;
+    [Tooltip("TimeGap Controller Component")]
+    [SerializeField] TimeGapController timeGap;
+
     [Header("UI Components")]
     [Tooltip("Health image to fill")]
     [SerializeField] Image healthFill;
+    [Tooltip("Experience image to fill")]
+    [SerializeField] Image xpFill;
     [SerializeField] TextMeshProUGUI healthText;
     [SerializeField] TextMeshProUGUI livesText;
+    [SerializeField] TextMeshProUGUI levelText;
+
     [Header("Panels")]
     [Tooltip("Defeat panel to show")]
     [SerializeField] CanvasGroup defeatPanel;
@@ -20,45 +28,68 @@ public class PlayerUIController : MonoBehaviour
     [Tooltip("Option panel to show")]
     [SerializeField] GameObject optionPanel;
     [SerializeField] private float fadeDuration = 5f;
+
     void OnEnable()
     {
-        if (!playerHealth) 
+        if (!playerHealth || !timeGap || !playerXP)
             return;
 
         playerHealth.OnPlayerHealthChanged += HandleHealthChange;
-        playerHealth.OnLivesChanged += HandleLivesChange;
+        playerHealth.OnLivesChanged += HandleLivesChanged;
         playerHealth.OnPlayerDie += ShowDefeatPanel;
+        timeGap.OnTimeGapDestroy += ShowDefeatPanel;
+        playerXP.OnXPChanged += HandleXPChanged;
+        playerXP.OnLevelChanged += HandleLevelChanged;
     }
 
     void OnDisable()
     {
-        if (!playerHealth)
+        if (!playerHealth || !timeGap || !playerXP)
             return;
 
         playerHealth.OnPlayerHealthChanged -= HandleHealthChange;
-        playerHealth.OnLivesChanged -= HandleLivesChange;
+        playerHealth.OnLivesChanged -= HandleLivesChanged;
         playerHealth.OnPlayerDie -= ShowDefeatPanel;
+        timeGap.OnTimeGapDestroy -= ShowDefeatPanel;
+        playerXP.OnXPChanged -= HandleXPChanged;
+        playerXP.OnLevelChanged -= HandleLevelChanged;
     }
 
     private void Start()
     {
         // Refrescar UI al habilitar
         HandleHealthChange(playerHealth.GetCurrentHealth(), playerHealth.GetMaxHealth());
+        HandleLivesChanged(playerHealth.GetCurrentLives());
+        HandleXPChanged(playerXP.GetCurrentXP(), playerXP.GetXPToNextLevel());
+        HandleLevelChanged(playerXP.GetCurrentLevel());
     }
 
     void HandleHealthChange(float current, float max)
     {
         float fillAmount = (max <= 0 || current <= 0) ? 0 : current / max;
-        if (healthFill != null) 
+        if (healthFill != null)
             healthFill.fillAmount = fillAmount;
-        if (healthText != null) 
+        if (healthText != null)
             healthText.text = $"{Mathf.CeilToInt(current)} / {Mathf.CeilToInt(max)}";
     }
 
-    void HandleLivesChange(int currentAmount)
+    public void HandleXPChanged(float current, float max)
+    {
+        float fillAmount = (max <= 0 || current <= 0 || current >= max) ? 0 : current / max;
+        if (xpFill != null)
+            xpFill.fillAmount = fillAmount;
+    }
+
+    void HandleLivesChanged(int currentAmount)
     {
         if(livesText != null)
             livesText.text = currentAmount.ToString();
+    }
+
+    void HandleLevelChanged(int currentLevel)
+    {
+        if (levelText != null)
+            levelText.text = currentLevel.ToString();
     }
 
     public void ShowDefeatPanel()

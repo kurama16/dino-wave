@@ -18,21 +18,22 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public event Action<int> OnLivesChanged;
     public event Action OnPlayerDie;
 
-    public int Lives { get; private set; }
+    private int _currentLives { get; set; }
 
     private void Awake()
     {
-        Lives = startingLives;
+        _currentLives = startingLives;
         _currentHealth = maxHealth;
     }
 
     private void Start()
     {
-        OnLivesChanged?.Invoke(Lives);
+        OnLivesChanged?.Invoke(_currentLives);
     }
 
     public float GetCurrentHealth() => _currentHealth;
     public float GetMaxHealth() => maxHealth;
+    public int GetCurrentLives() => _currentLives;
 
     public void TakeDamage(float amount)
     {
@@ -50,17 +51,17 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void HandleHealthDepleted()
     {
-        Lives--;
-        OnLivesChanged?.Invoke(Lives);
+        _currentLives--;
+        OnLivesChanged?.Invoke(_currentLives);
 
-        if(Lives >= 0)
+        if(_currentLives >= 0)
         {
             _currentHealth = maxHealth;
             gameObject.transform.position = playerSpawnPoint.transform.position;
             OnPlayerHealthChanged?.Invoke(_currentHealth, maxHealth);
         }
 
-        if(Lives == 0)
+        if(_currentLives == 0)
         {
             OnPlayerDie?.Invoke();
             Die();
@@ -70,7 +71,5 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void Die()
     {
         gameObject.SetActive(false);
-        //Mostrar panel de derrota invocando a la UI
-        Debug.Log("Player has die");
     }
 }
