@@ -119,10 +119,9 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        if (isDead) return;
+        if (isDead) 
+            return;
         
-        Debug.Log("Player Die");
-
         isDead = true;
         OnPlayerDie?.Invoke();
         gameObject.SetActive(false);

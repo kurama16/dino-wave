@@ -84,9 +84,11 @@ public class BuildingSystem : MonoBehaviour
 
     public void BuildTurret(Turret turret)
     {
-        if (nearestPoint == null) return;
+        if (nearestPoint == null) 
+            return;
 
-        int playerLevel = playerXP.CurrentLevel;
+        //TODO: Mover la validacion del requerimiento al player y prevenir directamente que muestre el canvas.
+        int playerLevel = playerXP.GetCurrentLevel();
         int nextLevelRequirement = playerXP.NextTurretLevelRequirement();
 
         if (playerLevel >= nextLevelRequirement)

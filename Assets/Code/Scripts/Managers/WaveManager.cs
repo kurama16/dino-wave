@@ -68,7 +68,6 @@ public class WaveManager : MonoBehaviour
         bool isLastWave = currentWave >= maxWaves;
         if (isLastWave)
         {
-            Debug.Log("onGameWon");
             onGameWon?.Invoke();
         }
         else

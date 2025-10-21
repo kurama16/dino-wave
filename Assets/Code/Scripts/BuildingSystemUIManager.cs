@@ -36,6 +36,7 @@ public class BuildingSystemUIManager : MonoBehaviour
     public void OpenBuildMenu()
     {
         menuPanel.SetActive(true);
+        Debug.Log("OpenBuildMenu: " + menuPanel.activeSelf);
     }
 
     public void CloseBuildMenu()
