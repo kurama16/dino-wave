@@ -6,7 +6,7 @@ public class PlayerUIController : MonoBehaviour
 {
     [Header("References")]
     [Tooltip("Player Controller Component")]
-    [SerializeField] PlayerHealth playerHealth;
+    [SerializeField] PlayerStats playerStats;
     [SerializeField] PlayerXP playerXP;
     [Tooltip("TimeGap Controller Component")]
     [SerializeField] TimeGapController timeGap;
@@ -31,12 +31,12 @@ public class PlayerUIController : MonoBehaviour
 
     void OnEnable()
     {
-        if (!playerHealth || !timeGap || !playerXP)
+        if (!playerStats || !timeGap || !playerXP)
             return;
 
-        playerHealth.OnPlayerHealthChanged += HandleHealthChange;
-        playerHealth.OnLivesChanged += HandleLivesChanged;
-        playerHealth.OnPlayerDie += ShowDefeatPanel;
+        playerStats.OnPlayerHealthChanged += HandleHealthChange;
+        playerStats.OnLivesChanged += HandleLivesChanged;
+        playerStats.OnPlayerDie += ShowDefeatPanel;
         timeGap.OnTimeGapDestroy += ShowDefeatPanel;
         playerXP.OnXPChanged += HandleXPChanged;
         playerXP.OnLevelChanged += HandleLevelChanged;
@@ -44,12 +44,12 @@ public class PlayerUIController : MonoBehaviour
 
     void OnDisable()
     {
-        if (!playerHealth || !timeGap || !playerXP)
+        if (!playerStats || !timeGap || !playerXP)
             return;
 
-        playerHealth.OnPlayerHealthChanged -= HandleHealthChange;
-        playerHealth.OnLivesChanged -= HandleLivesChanged;
-        playerHealth.OnPlayerDie -= ShowDefeatPanel;
+        playerStats.OnPlayerHealthChanged -= HandleHealthChange;
+        playerStats.OnLivesChanged -= HandleLivesChanged;
+        playerStats.OnPlayerDie -= ShowDefeatPanel;
         timeGap.OnTimeGapDestroy -= ShowDefeatPanel;
         playerXP.OnXPChanged -= HandleXPChanged;
         playerXP.OnLevelChanged -= HandleLevelChanged;
@@ -58,8 +58,8 @@ public class PlayerUIController : MonoBehaviour
     private void Start()
     {
         // Refrescar UI al habilitar
-        HandleHealthChange(playerHealth.GetCurrentHealth(), playerHealth.GetMaxHealth());
-        HandleLivesChanged(playerHealth.GetCurrentLives());
+        HandleHealthChange(playerStats.GetCurrentHealth(), playerStats.GetMaxHealth());
+        HandleLivesChanged(playerStats.GetCurrentLives());
         HandleXPChanged(playerXP.GetCurrentXP(), playerXP.GetXPToNextLevel());
         HandleLevelChanged(playerXP.GetCurrentLevel());
     }

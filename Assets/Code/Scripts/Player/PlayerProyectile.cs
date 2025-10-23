@@ -2,15 +2,9 @@ using UnityEngine;
 
 public class PlayerProyectile : MonoBehaviour
 {
-    [Tooltip("Da�o que hace el proyectil")]
-    [SerializeField] float damage = 10f;
-    [Tooltip("Tiempo de vida del proyectil")]
-    [SerializeField] float lifeTime = 5f;
+    private float _currentDamage;
 
-    void Start()
-    {
-        Destroy(gameObject, lifeTime);
-    }
+    public void SetDamage(float damage) => _currentDamage = damage;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,7 +12,7 @@ public class PlayerProyectile : MonoBehaviour
         {
             if (other.TryGetComponent<IDamageable>(out var target))
             {
-                target.TakeDamage(damage);
+                target.TakeDamage(_currentDamage);
             }
 
             Destroy(gameObject);

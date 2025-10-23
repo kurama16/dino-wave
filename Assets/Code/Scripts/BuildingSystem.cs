@@ -19,7 +19,7 @@ public class BuildingSystem : MonoBehaviour
 
     private GameObject buildPointGizmo;
     private GameObject nearestPoint;
-    private PlayerXP playerXP;
+    private PlayerStats playerStats;
 
     void Awake()
     {
@@ -27,8 +27,8 @@ public class BuildingSystem : MonoBehaviour
         if (buildingPoints == null || buildingPoints.Count == 0) throw new InvalidOperationException("Building points vacíos");
         if (buildPointGizmoPrefab == null) throw new InvalidOperationException("No se asignó buildPointGizmoPrefab");
 
-        playerXP = player.GetComponent<PlayerXP>();
-        if (playerXP == null) throw new InvalidOperationException("El Player no tiene PlayerXP asignado");
+        playerStats = player.GetComponent<PlayerStats>();
+        if (playerStats == null) throw new InvalidOperationException("El Player no tiene PlayerStats asignado");
 
         buildPointGizmo = Instantiate(buildPointGizmoPrefab, Vector3.zero, buildPointGizmoPrefab.transform.rotation);
         buildPointGizmo.SetActive(false);
@@ -88,12 +88,12 @@ public class BuildingSystem : MonoBehaviour
             return;
 
         //TODO: Mover la validacion del requerimiento al player y prevenir directamente que muestre el canvas.
-        int playerLevel = playerXP.GetCurrentLevel();
-        int nextLevelRequirement = playerXP.NextTurretLevelRequirement();
+        //int playerLevel = playerXP.GetCurrentLevel();
+        //int nextLevelRequirement = playerXP.NextTurretLevelRequirement();
 
-        if (playerLevel >= nextLevelRequirement)
+        if (playerStats.GetTurretBuildCount() < playerStats.GetTurretBuiltLimit())
         {
-            playerXP.RegisterTurretBuild();
+            playerStats.IncreaseTurretBuildCount();
 
             AudioManager.Instance.PlayBuild();
             Vector3 nearestPos = nearestPoint.transform.position;
@@ -102,10 +102,6 @@ public class BuildingSystem : MonoBehaviour
             nearestPoint.SetActive(false);
             Instantiate(turret, spawnPos, Quaternion.identity);
             buildingUIManager.CloseBuildMenu();
-        }
-        else
-        {
-            Debug.Log($"No puedes construir esta torreta todavía. Nivel requerido: {nextLevelRequirement}");
         }
     }
 }

@@ -2,21 +2,25 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public GameObject ProjectilePrefab;
-    public Transform FirePoint;
-    public float ProjectileSpeed = 20f;
-    public float FireRate = 0.5f;
-    public float ProjectileLifetime = 5f;
-    public Collider PlayerCollider;
+    [SerializeField] private GameObject ProjectilePrefab;
+    [SerializeField] private Transform FirePoint;
+    [SerializeField] private float ProjectileLifetime = 5f;
+    [SerializeField] private Collider PlayerCollider;
 
     private float _nextFireTime;
+    private PlayerStats _playerHealth;
+
+    private void Awake()
+    {
+        _playerHealth = GetComponentInParent<PlayerStats>();
+    }
 
     void Update()
     {
         if (Input.GetButton("Fire1") && Time.time >= _nextFireTime)
         {
             Shoot();
-            _nextFireTime = Time.time + FireRate;
+            _nextFireTime = Time.time + _playerHealth.GetCurrentFireRate();
         }
     }
 
@@ -24,12 +28,15 @@ public class Weapon : MonoBehaviour
     {
         GameObject projectile = Instantiate(ProjectilePrefab, FirePoint.position, FirePoint.rotation);
         AudioManager.Instance.PlayShoot();
+
+        var playerProjectile = projectile.GetComponent<PlayerProyectile>();
+        playerProjectile.SetDamage(_playerHealth.GetCurrentDamage());
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         Collider projectileCollider = projectile.GetComponent<Collider>();
 
         if (rb != null)
         {
-            rb.linearVelocity = FirePoint.forward * ProjectileSpeed;
+            rb.linearVelocity = FirePoint.forward * _playerHealth.GetCurrentProjectileSpeed();
         }
 
         if (projectileCollider != null && PlayerCollider != null)
