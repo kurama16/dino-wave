@@ -4,38 +4,35 @@ using UnityEngine;
 
 public class BuildingSystem : MonoBehaviour
 {
-    [Header("Object Refs")]
-    [SerializeField] private GameObject player;
-    [SerializeField] private BuildingSystemUIManager buildingUIManager;
-
     [Header("Configuration")]
-    [SerializeField] private KeyCode openMenuKey;
+    [SerializeField] private string playerTag = "Player";
     [SerializeField] private List<GameObject> buildingPoints;
     [SerializeField] private float distanceTreshold = 2.0f;
     [SerializeField] private float gizmoOffsetY = 2.0f;
 
-    [Header("Assets")]
+    [Header("UI & Prefabs")]
+    [SerializeField] private BuildingSystemUIManager buildingUIManager;
     [SerializeField] private GameObject buildPointGizmoPrefab;
 
     private GameObject buildPointGizmo;
     private GameObject nearestPoint;
     private PlayerXP playerXP;
 
-    void Awake()
+    private void Awake()
     {
-        if (player == null) throw new InvalidOperationException("Player no asignado");
-        if (buildingPoints == null || buildingPoints.Count == 0) throw new InvalidOperationException("Building points vacíos");
-        if (buildPointGizmoPrefab == null) throw new InvalidOperationException("No se asignó buildPointGizmoPrefab");
-
-        playerXP = player.GetComponent<PlayerXP>();
-        if (playerXP == null) throw new InvalidOperationException("El Player no tiene PlayerXP asignado");
-
         buildPointGizmo = Instantiate(buildPointGizmoPrefab, Vector3.zero, buildPointGizmoPrefab.transform.rotation);
         buildPointGizmo.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
+        if (playerXP == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
+            if (playerObj != null) playerXP = playerObj.GetComponent<PlayerXP>();
+            if (playerXP == null) return;
+        }
+
         nearestPoint = GetActiveNearestBuildingPoint();
 
         if (nearestPoint == null)
@@ -44,7 +41,7 @@ public class BuildingSystem : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(openMenuKey))
+        if (Input.GetKeyDown(KeyCode.E)) 
         {
             buildingUIManager.OpenBuildMenu();
         }
@@ -52,23 +49,31 @@ public class BuildingSystem : MonoBehaviour
 
     private GameObject GetActiveNearestBuildingPoint()
     {
-        Vector2 playerPos = new Vector2(player.transform.position.x, player.transform.position.z);
+        Vector3 playerPos = playerXP.transform.position;
+        GameObject closest = null;
+        float shortestDist = float.MaxValue;
 
-        foreach (GameObject buildPoint in buildingPoints)
+        foreach (var point in buildingPoints)
         {
-            if (!buildPoint.activeSelf) continue;
+            if (!point.activeSelf) continue;
 
-            Vector2 buildPointPos = new Vector2(buildPoint.transform.position.x, buildPoint.transform.position.z);
+            Vector2 pointPos2D = new Vector2(point.transform.position.x, point.transform.position.z);
+            Vector2 playerPos2D = new Vector2(playerPos.x, playerPos.z);
+            float dist = Vector2.Distance(playerPos2D, pointPos2D);
 
-            if (Vector2.Distance(playerPos, buildPointPos) < distanceTreshold)
+            if (dist < distanceTreshold && dist < shortestDist)
             {
-                ShowGizmo(buildPoint.transform.position);
-                return buildPoint;
+                shortestDist = dist;
+                closest = point;
             }
         }
 
-        HideGizmo();
-        return null;
+        if (closest != null)
+            ShowGizmo(closest.transform.position);
+        else
+            HideGizmo();
+
+        return closest;
     }
 
     private void ShowGizmo(Vector3 position)
@@ -84,28 +89,21 @@ public class BuildingSystem : MonoBehaviour
 
     public void BuildTurret(Turret turret)
     {
-        if (nearestPoint == null) 
+        if (nearestPoint == null || playerXP == null) return;
+
+        if (!playerXP.CanBuildTurret())
+        {
+            Debug.Log("Ya construiste el máximo de torretas permitidas o no tienes nivel suficiente.");
             return;
-
-        //TODO: Mover la validacion del requerimiento al player y prevenir directamente que muestre el canvas.
-        int playerLevel = playerXP.GetCurrentLevel();
-        int nextLevelRequirement = playerXP.NextTurretLevelRequirement();
-
-        if (playerLevel >= nextLevelRequirement)
-        {
-            playerXP.RegisterTurretBuild();
-
-            AudioManager.Instance.PlayBuild();
-            Vector3 nearestPos = nearestPoint.transform.position;
-            Vector3 spawnPos = new Vector3(nearestPos.x, turret.transform.position.y, nearestPos.z);
-
-            nearestPoint.SetActive(false);
-            Instantiate(turret, spawnPos, Quaternion.identity);
-            buildingUIManager.CloseBuildMenu();
         }
-        else
-        {
-            Debug.Log($"No puedes construir esta torreta todavía. Nivel requerido: {nextLevelRequirement}");
-        }
+
+        playerXP.RegisterTurretBuild();
+
+        Vector3 nearestPos = nearestPoint.transform.position;
+        Vector3 spawnPos = new Vector3(nearestPos.x, turret.transform.position.y, nearestPos.z);
+
+        nearestPoint.SetActive(false);
+        Instantiate(turret, spawnPos, Quaternion.identity);
+        buildingUIManager.CloseBuildMenu();
     }
 }
