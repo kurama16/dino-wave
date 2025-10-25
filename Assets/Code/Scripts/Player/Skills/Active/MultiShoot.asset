@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e539e71995bd23f4e8df0a76942aa8c6, type: 3}
-  m_Name: Vitality_2
+  m_Script: {fileID: 11500000, guid: 3dc479824ac6d3a498a8eac8c4b8aa86, type: 3}
+  m_Name: MultiShoot
   m_EditorClassIdentifier: 
-  skillId: Vitality_2
-  displayName: Vitality nivel 2
-  bonusHealth: 10
+  skillId: MultiShoot
+  displayName: Multi Shoots
+  cooldown: 5
+  duration: 0
+  icon: {fileID: 21300000, guid: 85acd85c188763648825336020215ecc, type: 3}

@@ -16,42 +16,42 @@ MonoBehaviour:
   - addMaxHealth: 10
     addMaxDamage: 0
     reduceFireRate: 0
-    addTurretLimit: 0
+    addTurretLimit: 1
     globalCooldownMultiplierReduction: 0
   - addMaxHealth: 0
     addMaxDamage: 5
     reduceFireRate: 0
-    addTurretLimit: 1
-    globalCooldownMultiplierReduction: 0
-  - addMaxHealth: 0
-    addMaxDamage: 0
-    reduceFireRate: 0.07
     addTurretLimit: 0
     globalCooldownMultiplierReduction: 0
   - addMaxHealth: 0
     addMaxDamage: 0
-    reduceFireRate: 0
+    reduceFireRate: 0.07
     addTurretLimit: 1
+    globalCooldownMultiplierReduction: 0
+  - addMaxHealth: 0
+    addMaxDamage: 0
+    reduceFireRate: 0
+    addTurretLimit: 0
     globalCooldownMultiplierReduction: 0.1
   - addMaxHealth: 10
     addMaxDamage: 0
     reduceFireRate: 0
-    addTurretLimit: 0
+    addTurretLimit: 1
     globalCooldownMultiplierReduction: 0
   - addMaxHealth: 0
     addMaxDamage: 5
     reduceFireRate: 0
-    addTurretLimit: 1
-    globalCooldownMultiplierReduction: 0
-  - addMaxHealth: 0
-    addMaxDamage: 0
-    reduceFireRate: 0.07
     addTurretLimit: 0
     globalCooldownMultiplierReduction: 0
   - addMaxHealth: 0
     addMaxDamage: 0
-    reduceFireRate: 0
+    reduceFireRate: 0.07
     addTurretLimit: 1
+    globalCooldownMultiplierReduction: 0
+  - addMaxHealth: 0
+    addMaxDamage: 0
+    reduceFireRate: 0
+    addTurretLimit: 0
     globalCooldownMultiplierReduction: 0.1
   - addMaxHealth: 10
     addMaxDamage: 0

@@ -17,14 +17,14 @@ public class EnemyContactDamage : MonoBehaviour
         {
             _playerInContact = true;
             _playerContactDamageTimer = 0f;
-            playerTarget.TakeDamage(amount);
+            playerTarget.TakeDamage(amount, other.gameObject);
         }
 
         if(other.CompareTag("TimeGap") && other.TryGetComponent<IDamageable>(out var breachTarget))
         {
             _breachInContact = true;
             _breachContactDamageTimer = 0f;
-            breachTarget.TakeDamage(amount);
+            breachTarget.TakeDamage(amount, other.gameObject);
         }
     }
 
@@ -35,7 +35,7 @@ public class EnemyContactDamage : MonoBehaviour
             _playerContactDamageTimer += Time.deltaTime;
             if (_playerContactDamageTimer >= tickInterval)
             {
-                playerTarget.TakeDamage(amount);
+                playerTarget.TakeDamage(amount, other.gameObject);
                 _playerContactDamageTimer = 0f;
             }
         }
@@ -45,7 +45,7 @@ public class EnemyContactDamage : MonoBehaviour
             _breachContactDamageTimer += Time.deltaTime;
             if (_breachContactDamageTimer >= tickInterval)
             {
-                breachTarget.TakeDamage(amount);
+                breachTarget.TakeDamage(amount, other.gameObject);
                 _breachContactDamageTimer = 0f;
             }
         }

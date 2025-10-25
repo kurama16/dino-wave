@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public interface IDamageable { void TakeDamage(float amount); }
+public interface IDamageable { void TakeDamage(float amount, GameObject doneBy); }
 
 public class PlayerStats : MonoBehaviour, IDamageable
 {
@@ -10,12 +10,11 @@ public class PlayerStats : MonoBehaviour, IDamageable
     [SerializeField] private int startingLives = 3;
     [SerializeField] private Transform playerSpawnPoint;
     [Header("Damage Stats")]
-    [SerializeField] private float baseDamage = 10f;
     [SerializeField] private float projectileSpeed = 20f;
     [SerializeField] private float fireRate = 0.5f;
 
-    private float _currentHealth;
-    private float _currentDamage;
+    private float _currentHealth = 0;
+    private float _currentDamage = 0;
     private float _currentProjectileSpeed;
     private float _currentFireRate;
     private float _maxHealth;
@@ -35,8 +34,6 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        _currentHealth = _maxHealth;
-        _currentDamage = baseDamage;
         _currentProjectileSpeed = projectileSpeed;
         _currentFireRate = fireRate;
         OnLivesChanged?.Invoke(_currentLives);
@@ -49,11 +46,13 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     public float GetCurrentHealth() => _currentHealth;
 
+    public void SetCurrentHealth(float health) => _currentHealth = health;
+
     public float GetMaxHealth() => _maxHealth;
 
-    public int GetCurrentLives() => _currentLives;
-
     public void SetMaxHealth(float maxHealth) => _maxHealth = maxHealth;
+
+    public int GetCurrentLives() => _currentLives;
 
     public void IncreaseMaxHealth(float health) 
     {
@@ -88,7 +87,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
         OnPlayerHealthChanged?.Invoke(_currentHealth, _maxHealth);
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, GameObject doneBy)
     {
         if (amount <= 0)
             return;
@@ -97,6 +96,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
         _currentHealth = Mathf.Max(0, _currentHealth - amount);
         OnPlayerHealthChanged?.Invoke(_currentHealth, _maxHealth);
+        Debug.Log(_currentHealth);
 
         if(_currentHealth == 0)
             HandleHealthDepleted();
@@ -123,6 +123,9 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        if (TryGetComponent<PlayerAbilityController>(out var abilityController))
+            abilityController.UnapplyAllPassives();
+
         gameObject.SetActive(false);
     }
 }

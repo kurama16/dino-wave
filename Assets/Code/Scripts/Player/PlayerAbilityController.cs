@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,10 +12,17 @@ public class PlayerAbilityController : MonoBehaviour
     [SerializeField] private List<ActiveSkillSO> activeSkills = new();
     [SerializeField] private List<PassiveSkillSO> passiveSkills = new();
 
+    [Header("Remover cuando esten los slots")]
+    [SerializeField] private ActiveSkillSO skillFire2;
+    [SerializeField] private ActiveSkillSO skillE;
+
     private CooldownService _cooldownService;
     private PlayerStats _playerStats;
     private int _levelIndexProgression = 0;
     private float _globalCDMultiplier = 1f;
+
+    public Action<IReadOnlyList<ActiveSkillSO>> OnActiveSkillReady;
+    public Action<string, float, float> OnSkillCooldownStarted;
 
     private void Awake()
     {
@@ -22,12 +30,30 @@ public class PlayerAbilityController : MonoBehaviour
         _cooldownService = GetComponent<CooldownService>();
 
         _playerStats.SetMaxHealth(archetype.baseMaxHealth);
+        _playerStats.SetCurrentHealth(archetype.baseMaxHealth);
         _playerStats.IncreaseDamage(archetype.baseDamage);
         activeSkills.AddRange(archetype.startingActiveSkills);
         passiveSkills.AddRange(archetype.startingPassiveSkills);
 
         foreach (var passiveSkill in passiveSkills)
             passiveSkill.Apply(gameObject);
+    }
+
+    private void Start()
+    {
+        OnActiveSkillReady?.Invoke(activeSkills);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            TryUse(skillE);
+        }
+        if (Input.GetButton("Fire2"))
+        {
+            TryUse(skillFire2);
+        }
     }
 
     public bool TryUse(ActiveSkillSO skill)
@@ -38,9 +64,19 @@ public class PlayerAbilityController : MonoBehaviour
             return false;
 
         skill.Execute(gameObject);
-        _cooldownService.StartKillCooldwn(skill, _globalCDMultiplier);
+        
+        float start = Time.time;
+        float end = _cooldownService.StartKillCooldwn(skill, _globalCDMultiplier);
+
+        OnSkillCooldownStarted?.Invoke(skill.skillId, start, end);
 
         return true;
+    }
+
+    public void UnapplyAllPassives()
+    {
+        foreach (var passive in passiveSkills)
+            passive.Unapply(gameObject);
     }
 
     public void LevelUp()

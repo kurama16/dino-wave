@@ -1,11 +1,11 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Skills/Active/EagleEye")]
-public class EagleEyeSO : ActiveSkillSO
+[CreateAssetMenu(menuName = "Skills/Active/MultiShoot")]
+public class MultiShootSO : ActiveSkillSO
 {
     public override void Execute(GameObject caster)
     {
-        Debug.Log("Execute EagleEye");
+        Debug.Log("Execute MultiShoot");
         var playerAbilityController = caster.GetComponent<PlayerAbilityController>();
     }
 }

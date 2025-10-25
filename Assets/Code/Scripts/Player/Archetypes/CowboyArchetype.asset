@@ -18,5 +18,7 @@ MonoBehaviour:
   baseMaxHealth: 150
   baseDamage: 20
   startingActiveSkills:
-  - {fileID: 0}
-  startingPassiveSkills: []
+  - {fileID: 11400000, guid: 1e238c5943c82fd419e60302c781b6d9, type: 2}
+  - {fileID: 11400000, guid: 7884d754280962947a0051939381ed23, type: 2}
+  startingPassiveSkills:
+  - {fileID: 11400000, guid: f7bff8eb1a7ef38428645dab624dd16d, type: 2}

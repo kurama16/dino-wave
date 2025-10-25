@@ -30,7 +30,7 @@ public class Weapon : MonoBehaviour
         AudioManager.Instance.PlayShoot();
 
         var playerProjectile = projectile.GetComponent<PlayerProyectile>();
-        playerProjectile.SetDamage(_playerHealth.GetCurrentDamage());
+        playerProjectile.Initialize(gameObject.transform.parent.gameObject, _playerHealth.GetCurrentDamage());
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         Collider projectileCollider = projectile.GetComponent<Collider>();
 

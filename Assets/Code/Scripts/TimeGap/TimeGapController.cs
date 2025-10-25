@@ -37,7 +37,7 @@ public class TimeGapController : MonoBehaviour, IDamageable
 
     public float GetMaxHealth() => maxHealth;
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, GameObject doneBy)
     {
         if (_isDead || amount <= 0) 
             return;

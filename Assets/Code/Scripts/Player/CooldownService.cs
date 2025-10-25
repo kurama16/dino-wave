@@ -3,16 +3,22 @@ using UnityEngine;
 
 public class CooldownService : MonoBehaviour
 {
-    private readonly Dictionary<string, float> skillCDUntil = new();
-    
+    private readonly Dictionary<string, float> _skillCDUntil = new();
+
     public bool IsOnCooldown(string id)
     {
-        return skillCDUntil.TryGetValue(id, out var cooldown) && cooldown > Time.time;
+        return _skillCDUntil.TryGetValue(id, out var cooldown) && cooldown > Time.time;
     }
 
-    public void StartKillCooldwn(ActiveSkillSO skill, float cooldownMultiplayer = 1f)
+    public float GetRemaining(string id)
+    {
+        return _skillCDUntil.TryGetValue(id, out var cooldown) ? Mathf.Max(0, cooldown - Time.time) : 0f;
+    }
+
+    public float StartKillCooldwn(ActiveSkillSO skill, float cooldownMultiplayer = 1f)
     {
         var end = Time.time + (skill.cooldown * cooldownMultiplayer);
-        skillCDUntil[skill.skillId] = end;
+        _skillCDUntil[skill.skillId] = end;
+        return end;
     }
 }

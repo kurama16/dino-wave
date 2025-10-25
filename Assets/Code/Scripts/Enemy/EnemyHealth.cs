@@ -21,7 +21,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public float GetCurrentHealth() => _currentHealth;
     public float GetMaxHealth() => MaxHealth;
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, GameObject doneBy)
     {
         if (amount <= 0) return;
 
@@ -29,15 +29,17 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         OnEnemyHealthChanged?.Invoke(_currentHealth, MaxHealth);
 
         if (_currentHealth <= 0)
-            Die();
+            Die(doneBy);
     }
 
-    private void Die()
-{
-    EnemyXPDrop xpDrop = GetComponent<EnemyXPDrop>();
-    if (xpDrop != null) xpDrop.DropXP(); 
+    private void Die(GameObject doneBy)
+    {
+        EnemyXPDrop xpDrop = GetComponent<EnemyXPDrop>();
+        if (xpDrop != null) 
+            xpDrop.DropXP(); 
 
-    OnEnemyDie?.Invoke();
-    Destroy(gameObject);
-}
+        OnEnemyDie?.Invoke();
+        CombatEvents.RaiseEnemyKilled(gameObject, doneBy);
+        Destroy(gameObject);
+    }
 }

@@ -44,8 +44,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     void Update()
     {
         PlayerMovement();
-        if (Input.GetKeyDown(KeyCode.M))
-            this.TakeDamage(50);
     }
 
     void FixedUpdate()
@@ -104,7 +102,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, GameObject doneBy)
     {
         if (amount <= 0) 
             return;

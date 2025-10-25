@@ -62,6 +62,9 @@ public class PlayerUIController : MonoBehaviour
         HandleLivesChanged(playerStats.GetCurrentLives());
         HandleXPChanged(playerXP.GetCurrentXP(), playerXP.GetXPToNextLevel());
         HandleLevelChanged(playerXP.GetCurrentLevel());
+
+        Debug.Log("playerStats.GetCurrentHealth()" + playerStats.GetCurrentHealth());
+        Debug.Log("playerStats.GetMaxHealth()" + playerStats.GetMaxHealth());
     }
 
     void HandleHealthChange(float current, float max)

@@ -45,7 +45,7 @@ public class EnemyTimeGapChase : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= tickInterval)
             {
-                dmg.TakeDamage(damageAmount);
+                dmg.TakeDamage(damageAmount, gameObject);
                 timer = 0f;
             }
         }
