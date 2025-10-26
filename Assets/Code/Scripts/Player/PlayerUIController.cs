@@ -14,6 +14,8 @@ public class PlayerUIController : MonoBehaviour
     [Header("UI Components")]
     [Tooltip("Health image to fill")]
     [SerializeField] Image healthFill;
+    [Tooltip("Skill image to show")]
+    [SerializeField] GameObject skillIcon;
     [Tooltip("Experience image to fill")]
     [SerializeField] Image xpFill;
     [SerializeField] TextMeshProUGUI healthText;
@@ -37,6 +39,7 @@ public class PlayerUIController : MonoBehaviour
         playerStats.OnPlayerHealthChanged += HandleHealthChange;
         playerStats.OnLivesChanged += HandleLivesChanged;
         playerStats.OnPlayerDie += ShowDefeatPanel;
+        playerStats.OnPlayerSkillActived += HandleSkillActived;
         timeGap.OnTimeGapDestroy += ShowDefeatPanel;
         playerXP.OnXPChanged += HandleXPChanged;
         playerXP.OnLevelChanged += HandleLevelChanged;
@@ -50,6 +53,7 @@ public class PlayerUIController : MonoBehaviour
         playerStats.OnPlayerHealthChanged -= HandleHealthChange;
         playerStats.OnLivesChanged -= HandleLivesChanged;
         playerStats.OnPlayerDie -= ShowDefeatPanel;
+        playerStats.OnPlayerSkillActived -= HandleSkillActived;
         timeGap.OnTimeGapDestroy -= ShowDefeatPanel;
         playerXP.OnXPChanged -= HandleXPChanged;
         playerXP.OnLevelChanged -= HandleLevelChanged;
@@ -93,6 +97,12 @@ public class PlayerUIController : MonoBehaviour
     {
         if (levelText != null)
             levelText.text = currentLevel.ToString();
+    }
+
+    void HandleSkillActived(bool isActive)
+    {
+        if (skillIcon != null)
+            skillIcon.SetActive(isActive);
     }
 
     public void ShowDefeatPanel()

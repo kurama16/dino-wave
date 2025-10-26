@@ -15,5 +15,6 @@ MonoBehaviour:
   skillId: Eagle_Eye
   displayName: Eagle Eye
   cooldown: 10
-  duration: 2
+  duration: 4
   icon: {fileID: 21300000, guid: 70a4bd2a5d681794796b091907fd844e, type: 3}
+  boostAmount: 1.2

@@ -5,7 +5,10 @@ public class MultiShootSO : ActiveSkillSO
 {
     public override void Execute(GameObject caster)
     {
-        Debug.Log("Execute MultiShoot");
-        var playerAbilityController = caster.GetComponent<PlayerAbilityController>();
+        var weapon = caster.GetComponentInChildren<Weapon>();
+        if (weapon != null)
+        {
+            weapon.Shoot(4);
+        }
     }
 }

@@ -2,6 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
+public class SkillBinding
+{
+    public KeyCode key;
+    public ActiveSkillSO skill;
+}
+
 public class PlayerAbilityController : MonoBehaviour
 {
     [Header("Setup")]
@@ -12,9 +19,7 @@ public class PlayerAbilityController : MonoBehaviour
     [SerializeField] private List<ActiveSkillSO> activeSkills = new();
     [SerializeField] private List<PassiveSkillSO> passiveSkills = new();
 
-    [Header("Remover cuando esten los slots")]
-    [SerializeField] private ActiveSkillSO skillFire2;
-    [SerializeField] private ActiveSkillSO skillE;
+    [SerializeField] private List<SkillBinding> bindings = new();
 
     private CooldownService _cooldownService;
     private PlayerStats _playerStats;
@@ -37,6 +42,8 @@ public class PlayerAbilityController : MonoBehaviour
 
         foreach (var passiveSkill in passiveSkills)
             passiveSkill.Apply(gameObject);
+
+        bindings.RemoveAll(b => b.skill == null || !activeSkills.Contains(b.skill));
     }
 
     private void Start()
@@ -46,14 +53,9 @@ public class PlayerAbilityController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TryUse(skillE);
-        }
-        if (Input.GetButton("Fire2"))
-        {
-            TryUse(skillFire2);
-        }
+        foreach (var binding in bindings)
+            if (Input.GetKeyDown(binding.key))
+                TryUse(binding.skill);
     }
 
     public bool TryUse(ActiveSkillSO skill)

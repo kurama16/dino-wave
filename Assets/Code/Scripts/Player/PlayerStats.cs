@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public interface IDamageable { void TakeDamage(float amount, GameObject doneBy); }
@@ -15,6 +16,8 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     private float _currentHealth = 0;
     private float _currentDamage = 0;
+    private float _boostDamage = 1;
+    private float _boostDamageDuration = 0;
     private float _currentProjectileSpeed;
     private float _currentFireRate;
     private float _maxHealth;
@@ -24,6 +27,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
     public event Action<float, float> OnPlayerHealthChanged;
     public event Action<int> OnLivesChanged;
     public event Action OnPlayerDie;
+    public event Action<bool> OnPlayerSkillActived;
 
     private int _currentLives { get; set; }
 
@@ -62,7 +66,37 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     public void IncreaseDamage(float damage) => _currentDamage += damage;
 
-    public float GetCurrentDamage() => _currentDamage;
+    public float GetCurrentDamage() => _currentDamage * _boostDamage;
+
+    public void SetBoostDamage(float amount, float duration)
+    {
+        _boostDamage = amount;
+        _boostDamageDuration = duration;
+        OnPlayerSkillActived.Invoke(true);
+        StartCoroutine(ApplyBoostDamage());
+    }
+
+    private void ClearBoostDamage()
+    {
+        _boostDamage = 1;
+        _boostDamageDuration = 0;
+        OnPlayerSkillActived.Invoke(false);
+    }
+
+    private IEnumerator ApplyBoostDamage()
+    {
+        var startTime = Time.time;
+        var endTime = Time.time + _boostDamageDuration;
+        
+        while(Time.time < endTime)
+        {
+            var remainingTime = endTime - Time.time;
+            Debug.Log($"{remainingTime} seconds remaining");
+            yield return null;
+        }
+
+        ClearBoostDamage();
+    }
 
     public float GetCurrentFireRate() => _currentFireRate;
 
