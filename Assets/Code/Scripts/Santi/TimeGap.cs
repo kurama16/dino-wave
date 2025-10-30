@@ -23,7 +23,7 @@ public class TimeGap : MonoBehaviour, IDamageable
         transform.position = new Vector3(transform.position.x, newY, transform.position.z);
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, GameObject doneBy)
     {
         if (isDead || amount <= 0) return;
 

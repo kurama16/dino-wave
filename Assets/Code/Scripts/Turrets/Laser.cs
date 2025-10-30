@@ -25,7 +25,7 @@ public class Laser : MonoBehaviour
 
         if (Vector3.Distance(transform.position, target.position) < 0.2f)
         {
-            target.GetComponent<IDamageable>()?.TakeDamage(damage);
+            target.GetComponent<IDamageable>()?.TakeDamage(damage, gameObject);
             Destroy(gameObject);
         }
     }

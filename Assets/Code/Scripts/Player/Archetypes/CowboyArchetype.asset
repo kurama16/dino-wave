@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e85da1cc13d52a4b9ef4a9ae41bb32f, type: 3}
+  m_Name: CowboyArchetype
+  m_EditorClassIdentifier: 
+  archetype: Cowboy
+  displayName: Cowboy
+  description: "Tiene m\xE1s vida que el resto y cuenta con las siguientes"
+  baseMaxHealth: 150
+  baseDamage: 20
+  startingActiveSkills:
+  - {fileID: 11400000, guid: 1e238c5943c82fd419e60302c781b6d9, type: 2}
+  - {fileID: 11400000, guid: 7884d754280962947a0051939381ed23, type: 2}
+  startingPassiveSkills:
+  - {fileID: 11400000, guid: f7bff8eb1a7ef38428645dab624dd16d, type: 2}

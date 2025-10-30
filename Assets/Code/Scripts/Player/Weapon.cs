@@ -1,42 +1,62 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class Weapon : MonoBehaviour
 {
-    public GameObject ProjectilePrefab;
-    public Transform FirePoint;
-    public float ProjectileSpeed = 20f;
-    public float FireRate = 0.5f;
-    public float ProjectileLifetime = 5f;
-    public Collider PlayerCollider;
+    [SerializeField] private GameObject ProjectilePrefab;
+    [SerializeField] private Transform FirePoint;
+    [SerializeField] private float ProjectileLifetime = 5f;
+    [SerializeField] private Collider PlayerCollider;
 
     private float _nextFireTime;
+    private PlayerStats _playerHealth;
+
+    private void Awake()
+    {
+        _playerHealth = GetComponentInParent<PlayerStats>();
+    }
 
     void Update()
     {
         if (Input.GetButton("Fire1") && Time.time >= _nextFireTime)
         {
-            Shoot();
-            _nextFireTime = Time.time + FireRate;
+            Shoot(1);
+            _nextFireTime = Time.time + _playerHealth.GetCurrentFireRate();
         }
     }
 
-    private void Shoot()
+    public void Shoot(int projectilesCount)
     {
-        GameObject projectile = Instantiate(ProjectilePrefab, FirePoint.position, FirePoint.rotation);
-        AudioManager.Instance.PlayShoot();
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        Collider projectileCollider = projectile.GetComponent<Collider>();
+        float spreadDegrees = 12f;
+        float lateralSpacing = 0.05f;
 
-        if (rb != null)
+        float half = (projectilesCount > 1) ? (projectilesCount - 1) * 0.5f : 0f;
+
+        for (int i = 0; i < projectilesCount; i++)
         {
-            rb.linearVelocity = FirePoint.forward * ProjectileSpeed;
-        }
+            float t = (projectilesCount == 1) ? 0f : (i - half) / half;
+            float angle = t * (spreadDegrees * 0.5f) * 2f;
 
-        if (projectileCollider != null && PlayerCollider != null)
-        {
-            Physics.IgnoreCollision(projectileCollider, PlayerCollider);
-        }
+            Quaternion rotation = Quaternion.AngleAxis(angle, FirePoint.up) * FirePoint.rotation;
 
-        Destroy(projectile, ProjectileLifetime);
+            Vector3 position = FirePoint.position + (FirePoint.right * (i - half) * lateralSpacing);
+
+            GameObject projectile = Instantiate(ProjectilePrefab, position, rotation);
+            AudioManager.Instance.PlayShoot();
+
+            var playerProjectile = projectile.GetComponent<PlayerProyectile>();
+            playerProjectile.Initialize(gameObject.transform.parent.gameObject, _playerHealth.GetCurrentDamage());
+            if (projectile.TryGetComponent<Rigidbody>(out var rb))
+            {
+                rb.linearVelocity = rotation * Vector3.forward * _playerHealth.GetCurrentProjectileSpeed();
+            }
+            if (projectile.TryGetComponent<Collider>(out var projectileCollider) && PlayerCollider != null)
+            {
+                Physics.IgnoreCollision(projectileCollider, PlayerCollider);
+            }
+
+            Destroy(projectile, ProjectileLifetime);
+        }
     }
+
 }

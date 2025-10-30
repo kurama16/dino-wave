@@ -1,15 +1,17 @@
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class PlayerProyectile : MonoBehaviour
 {
-    [Tooltip("Da�o que hace el proyectil")]
-    [SerializeField] float damage = 10f;
-    [Tooltip("Tiempo de vida del proyectil")]
-    [SerializeField] float lifeTime = 5f;
+    private float _currentDamage;
+    private GameObject _owner;
 
-    void Start()
+    public void SetDamage(float damage) => _currentDamage = damage;
+    
+    public void Initialize(GameObject owner, float damage)
     {
-        Destroy(gameObject, lifeTime);
+        _owner = owner;
+        _currentDamage = damage;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -18,7 +20,7 @@ public class PlayerProyectile : MonoBehaviour
         {
             if (other.TryGetComponent<IDamageable>(out var target))
             {
-                target.TakeDamage(damage);
+                target.TakeDamage(_currentDamage, _owner);
             }
 
             Destroy(gameObject);

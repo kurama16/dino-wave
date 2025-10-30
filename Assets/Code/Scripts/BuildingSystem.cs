@@ -4,35 +4,38 @@ using UnityEngine;
 
 public class BuildingSystem : MonoBehaviour
 {
+    [Header("Object Refs")]
+    [SerializeField] private GameObject player;
+    [SerializeField] private BuildingSystemUIManager buildingUIManager;
+
     [Header("Configuration")]
-    [SerializeField] private string playerTag = "Player";
+    [SerializeField] private KeyCode openMenuKey;
     [SerializeField] private List<GameObject> buildingPoints;
     [SerializeField] private float distanceTreshold = 2.0f;
     [SerializeField] private float gizmoOffsetY = 2.0f;
 
-    [Header("UI & Prefabs")]
-    [SerializeField] private BuildingSystemUIManager buildingUIManager;
+    [Header("Assets")]
     [SerializeField] private GameObject buildPointGizmoPrefab;
 
     private GameObject buildPointGizmo;
     private GameObject nearestPoint;
-    private PlayerXP playerXP;
+    private PlayerStats playerStats;
 
-    private void Awake()
+    void Awake()
     {
+        if (player == null) throw new InvalidOperationException("Player no asignado");
+        if (buildingPoints == null || buildingPoints.Count == 0) throw new InvalidOperationException("Building points vacíos");
+        if (buildPointGizmoPrefab == null) throw new InvalidOperationException("No se asignó buildPointGizmoPrefab");
+
+        playerStats = player.GetComponent<PlayerStats>();
+        if (playerStats == null) throw new InvalidOperationException("El Player no tiene PlayerStats asignado");
+
         buildPointGizmo = Instantiate(buildPointGizmoPrefab, Vector3.zero, buildPointGizmoPrefab.transform.rotation);
         buildPointGizmo.SetActive(false);
     }
 
-    private void Update()
+    void Update()
     {
-        if (playerXP == null)
-        {
-            GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
-            if (playerObj != null) playerXP = playerObj.GetComponent<PlayerXP>();
-            if (playerXP == null) return;
-        }
-
         nearestPoint = GetActiveNearestBuildingPoint();
 
         if (nearestPoint == null)
@@ -41,7 +44,7 @@ public class BuildingSystem : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.E)) 
+        if (Input.GetKeyDown(openMenuKey))
         {
             buildingUIManager.OpenBuildMenu();
         }
@@ -49,7 +52,7 @@ public class BuildingSystem : MonoBehaviour
 
     private GameObject GetActiveNearestBuildingPoint()
     {
-        Vector3 playerPos = playerXP.transform.position;
+        Vector3 playerPos = player.transform.position;
         GameObject closest = null;
         float shortestDist = float.MaxValue;
 
@@ -89,21 +92,26 @@ public class BuildingSystem : MonoBehaviour
 
     public void BuildTurret(Turret turret)
     {
-        if (nearestPoint == null || playerXP == null) return;
-
-        if (!playerXP.CanBuildTurret())
-        {
-            Debug.Log("Ya construiste el máximo de torretas permitidas o no tienes nivel suficiente.");
+        if (nearestPoint == null)
             return;
+
+        //TODO: Mover la validacion del requerimiento al player y prevenir directamente que muestre el canvas.
+        if (playerStats.GetTurretBuildCount() < playerStats.GetTurretBuiltLimit())
+        {
+            playerStats.IncreaseTurretBuildCount();
+            //TODO: Una vez que se incrementa disparar el quest tracker q todavia no esta creado
+            if (player.TryGetComponent(out PlayerXP playerXP))
+            {
+                playerXP.RegisterTurretBuild();
+            }
+
+            AudioManager.Instance.PlayBuild();
+            Vector3 nearestPos = nearestPoint.transform.position;
+            Vector3 spawnPos = new Vector3(nearestPos.x, turret.transform.position.y, nearestPos.z);
+
+            nearestPoint.SetActive(false);
+            Instantiate(turret, spawnPos, Quaternion.identity);
+            buildingUIManager.CloseBuildMenu();
         }
-
-        playerXP.RegisterTurretBuild();
-
-        Vector3 nearestPos = nearestPoint.transform.position;
-        Vector3 spawnPos = new Vector3(nearestPos.x, turret.transform.position.y, nearestPos.z);
-
-        nearestPoint.SetActive(false);
-        Instantiate(turret, spawnPos, Quaternion.identity);
-        buildingUIManager.CloseBuildMenu();
     }
 }
