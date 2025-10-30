@@ -3,42 +3,38 @@ using UnityEngine;
 
 public class PlayerXP : MonoBehaviour
 {
-    [Header("Player Experience Stats")]
     [SerializeField] private int currentLevel = 1;
+    [SerializeField] private int enemiesToLevelUp = 4;
     [SerializeField] private int currentXP = 0;
-    [SerializeField] private int xpToNextLevel = 4;
-    [SerializeField] private int[] turretLevelRequirements = new int[4] { 2, 4, 6, 8 };
 
-    public Action<float, float> OnXPChanged;
-    public Action<int> OnLevelChanged;
+    private int enemiesDefeated = 0;
+    private int turretBuiltCount = 0;
+    private int[] turretLevelRequirements = new int[4] { 2, 4, 6, 8 };
 
-    private int _turretBuiltCount = 0;
+    public int CurrentLevel => currentLevel;
+    public int CurrentXP => currentXP;
+    public int XPToNextLevel => enemiesToLevelUp;
 
-    public int GetCurrentLevel() => currentLevel;
-    public int GetCurrentXP() => currentXP;
-    public int GetXPToNextLevel() => xpToNextLevel;
+    public event Action<float, float> OnXPChanged;
+    public event Action<int> OnLevelChanged;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("XP")) 
-            return;
-
-        if (other.TryGetComponent<Collider>(out var collider)) 
-            collider.enabled = false;
-
-        CollectXP();
-
-        Destroy(other.gameObject);
+        if (other.CompareTag("XP"))
+        {
+            CollectXP(1);
+            Destroy(other.gameObject);
+        }
     }
 
-    private void CollectXP()
+    public void CollectXP(int amount = 1)
     {
-        currentXP++;
-        OnXPChanged.Invoke(currentXP, xpToNextLevel);
-        
-        if (currentXP >= xpToNextLevel)
+        currentXP += amount;
+        enemiesDefeated += amount;
+        OnXPChanged?.Invoke(currentXP, enemiesToLevelUp);
+
+        if (enemiesDefeated >= enemiesToLevelUp)
         {
-            currentXP = 0;
             LevelUp();
         }
     }
@@ -46,22 +42,31 @@ public class PlayerXP : MonoBehaviour
     private void LevelUp()
     {
         currentLevel++;
-        OnLevelChanged.Invoke(currentLevel);
+        enemiesDefeated = 0;
+        currentXP = 0;
+        OnLevelChanged?.Invoke(currentLevel);
+        OnXPChanged?.Invoke(currentXP, enemiesToLevelUp);
     }
 
-    public int NextTurretLevelRequirement()
+    public bool CanBuildTurret()
     {
-        if (_turretBuiltCount >= turretLevelRequirements.Length) return int.MaxValue;
-        return turretLevelRequirements[_turretBuiltCount];
+        if (turretBuiltCount >= turretLevelRequirements.Length) return false;
+        return currentLevel >= turretLevelRequirements[turretBuiltCount];
     }
 
     public void RegisterTurretBuild()
     {
-        _turretBuiltCount++;
+        if (turretBuiltCount >= turretLevelRequirements.Length) return;
+
+        turretBuiltCount++;
+        if (turretBuiltCount >= 4)
+        {
+            LevelUp();
+        }
     }
 
-    public void ResetTurretBuilds()
+    public void ResetTurrets()
     {
-        _turretBuiltCount = 0;
+        turretBuiltCount = 0;
     }
 }

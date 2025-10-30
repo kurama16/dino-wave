@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,91 +6,101 @@ using UnityEngine.UI;
 public class PlayerUIController : MonoBehaviour
 {
     [Header("References")]
-    [Tooltip("Player Controller Component")]
-    [SerializeField] PlayerHealth playerHealth;
-    [SerializeField] PlayerXP playerXP;
-    [Tooltip("TimeGap Controller Component")]
-    [SerializeField] TimeGapController timeGap;
+    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private PlayerXP playerXP;
+    [SerializeField] private TimeGapController timeGap;
 
     [Header("UI Components")]
-    [Tooltip("Health image to fill")]
-    [SerializeField] Image healthFill;
-    [Tooltip("Experience image to fill")]
-    [SerializeField] Image xpFill;
-    [SerializeField] TextMeshProUGUI healthText;
-    [SerializeField] TextMeshProUGUI livesText;
-    [SerializeField] TextMeshProUGUI levelText;
+    [SerializeField] private Image healthFill;
+    [SerializeField] private Image xpFill;
+    [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private TextMeshProUGUI livesText;
+    [SerializeField] private TextMeshProUGUI levelText;
 
     [Header("Panels")]
-    [Tooltip("Defeat panel to show")]
-    [SerializeField] CanvasGroup defeatPanel;
-    [Tooltip("Victory panel to show")]
-    [SerializeField] CanvasGroup victoryPanel;
-    [Tooltip("Option panel to show")]
-    [SerializeField] GameObject optionPanel;
+    [SerializeField] private CanvasGroup defeatPanel;
+    [SerializeField] private CanvasGroup victoryPanel;
+    [SerializeField] private GameObject optionPanel;
     [SerializeField] private float fadeDuration = 5f;
 
-    void OnEnable()
+    private void OnEnable()
     {
-        if (!playerHealth || !timeGap || !playerXP)
-            return;
+        if (playerHealth != null)
+        {
+            playerHealth.OnPlayerHealthChanged += HandleHealthChange;
+            playerHealth.OnLivesChanged += HandleLivesChanged;
+            playerHealth.OnPlayerDie += ShowDefeatPanel;
+        }
 
-        playerHealth.OnPlayerHealthChanged += HandleHealthChange;
-        playerHealth.OnLivesChanged += HandleLivesChanged;
-        playerHealth.OnPlayerDie += ShowDefeatPanel;
-        timeGap.OnTimeGapDestroy += ShowDefeatPanel;
-        playerXP.OnXPChanged += HandleXPChanged;
-        playerXP.OnLevelChanged += HandleLevelChanged;
+        if (timeGap != null)
+        {
+            timeGap.OnTimeGapDestroy += ShowDefeatPanel;
+        }
+
+        if (playerXP != null)
+        {
+            playerXP.OnXPChanged += HandleXPChanged;
+            playerXP.OnLevelChanged += HandleLevelChanged;
+        }
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
-        if (!playerHealth || !timeGap || !playerXP)
-            return;
+        if (playerHealth != null)
+        {
+            playerHealth.OnPlayerHealthChanged -= HandleHealthChange;
+            playerHealth.OnLivesChanged -= HandleLivesChanged;
+            playerHealth.OnPlayerDie -= ShowDefeatPanel;
+        }
 
-        playerHealth.OnPlayerHealthChanged -= HandleHealthChange;
-        playerHealth.OnLivesChanged -= HandleLivesChanged;
-        playerHealth.OnPlayerDie -= ShowDefeatPanel;
-        timeGap.OnTimeGapDestroy -= ShowDefeatPanel;
-        playerXP.OnXPChanged -= HandleXPChanged;
-        playerXP.OnLevelChanged -= HandleLevelChanged;
+        if (timeGap != null)
+        {
+            timeGap.OnTimeGapDestroy -= ShowDefeatPanel;
+        }
+
+        if (playerXP != null)
+        {
+            playerXP.OnXPChanged -= HandleXPChanged;
+            playerXP.OnLevelChanged -= HandleLevelChanged;
+        }
     }
 
     private void Start()
     {
-        // Refrescar UI al habilitar
-        HandleHealthChange(playerHealth.GetCurrentHealth(), playerHealth.GetMaxHealth());
-        HandleLivesChanged(playerHealth.GetCurrentLives());
-        HandleXPChanged(playerXP.GetCurrentXP(), playerXP.GetXPToNextLevel());
-        HandleLevelChanged(playerXP.GetCurrentLevel());
+        if (playerHealth != null)
+        {
+            HandleHealthChange(playerHealth.GetCurrentHealth(), playerHealth.GetMaxHealth());
+            HandleLivesChanged(playerHealth.GetCurrentLives());
+        }
+
+        if (playerXP != null)
+        {
+            HandleXPChanged(playerXP.CurrentXP, playerXP.XPToNextLevel);
+            HandleLevelChanged(playerXP.CurrentLevel);
+        }
     }
 
-    void HandleHealthChange(float current, float max)
+    private void HandleHealthChange(float current, float max)
     {
         float fillAmount = (max <= 0 || current <= 0) ? 0 : current / max;
-        if (healthFill != null)
-            healthFill.fillAmount = fillAmount;
-        if (healthText != null)
-            healthText.text = $"{Mathf.CeilToInt(current)} / {Mathf.CeilToInt(max)}";
+        if (healthFill != null) healthFill.fillAmount = fillAmount;
+        if (healthText != null) healthText.text = $"{Mathf.CeilToInt(current)} / {Mathf.CeilToInt(max)}";
     }
 
-    public void HandleXPChanged(float current, float max)
+    private void HandleXPChanged(float current, float max)
     {
-        float fillAmount = (max <= 0 || current <= 0 || current >= max) ? 0 : current / max;
-        if (xpFill != null)
-            xpFill.fillAmount = fillAmount;
+        float fillAmount = (max <= 0) ? 0 : Mathf.Clamp01(current / max);
+        if (xpFill != null) xpFill.fillAmount = fillAmount;
     }
 
-    void HandleLivesChanged(int currentAmount)
+    private void HandleLivesChanged(int currentAmount)
     {
-        if(livesText != null)
-            livesText.text = currentAmount.ToString();
+        if (livesText != null) livesText.text = currentAmount.ToString();
     }
 
-    void HandleLevelChanged(int currentLevel)
+    private void HandleLevelChanged(int currentLevel)
     {
-        if (levelText != null)
-            levelText.text = currentLevel.ToString();
+        if (levelText != null) levelText.text = currentLevel.ToString();
     }
 
     public void ShowDefeatPanel()
@@ -108,10 +119,10 @@ public class PlayerUIController : MonoBehaviour
 
     public void ShowOptionPanel()
     {
-        optionPanel.gameObject.SetActive(true);
+        optionPanel.SetActive(true);
     }
 
-    System.Collections.IEnumerator FadeIn(CanvasGroup panel)
+    private System.Collections.IEnumerator FadeIn(CanvasGroup panel)
     {
         panel.interactable = false;
         panel.blocksRaycasts = false;
