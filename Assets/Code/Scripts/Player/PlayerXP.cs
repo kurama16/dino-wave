@@ -7,12 +7,10 @@ public class PlayerXP : MonoBehaviour
     [SerializeField] private int currentLevel = 1;
     [SerializeField] private int currentXP = 0;
     [SerializeField] private int xpToNextLevel = 4;
-    //[SerializeField] private int[] turretLevelRequirements = new int[4] { 2, 4, 6, 8 };
 
     public Action<float, float> OnXPChanged;
     public Action<int> OnLevelChanged;
 
-    //private int _turretBuiltCount = 0;
     private PlayerAbilityController _playerAbilityController;
 
     public int GetCurrentLevel() => currentLevel;
@@ -26,10 +24,10 @@ public class PlayerXP : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("XP")) 
+        if (!other.CompareTag("XP"))
             return;
 
-        if (other.TryGetComponent<Collider>(out var collider)) 
+        if (other.TryGetComponent<Collider>(out var collider))
             collider.enabled = false;
 
         CollectXP();
@@ -41,7 +39,7 @@ public class PlayerXP : MonoBehaviour
     {
         currentXP++;
         OnXPChanged.Invoke(currentXP, xpToNextLevel);
-        
+
         if (currentXP >= xpToNextLevel)
         {
             currentXP = 0;
@@ -56,19 +54,15 @@ public class PlayerXP : MonoBehaviour
         _playerAbilityController.LevelUp();
     }
 
-    //public int NextTurretLevelRequirement()
-    //{
-    //    if (_turretBuiltCount >= turretLevelRequirements.Length) return int.MaxValue;
-    //    return turretLevelRequirements[_turretBuiltCount];
-    //}
+    //Mover esto a otro script donde se puedan trackear las misiones
+    public void RegisterTurretBuild()
+    {
+    //    if (turretBuiltCount >= turretLevelRequirements.Length) return;
 
-    //public void RegisterTurretBuild()
-    //{
-    //    _turretBuiltCount++;
-    //}
-
-    //public void ResetTurretBuilds()
-    //{
-    //    _turretBuiltCount = 0;
-    //}
+    //    turretBuiltCount++;
+    //    if (turretBuiltCount >= 4)
+    //    {
+    //        LevelUp();
+    //    }
+    }
 }

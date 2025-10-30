@@ -1149,8 +1149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 968da9e9f153b8d4a906dde74c4bef7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStats: {fileID: 1444270090}
-  playerXP: {fileID: 1444270084}
+  player: {fileID: 1444270077}
   timeGap: {fileID: 1804844844}
   healthFill: {fileID: 2067937989}
   skillIcon: {fileID: 1559036110}
@@ -2802,7 +2801,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1731284567}
   m_HandleRect: {fileID: 1731284566}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2856,17 +2855,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1336776588066458302, guid: 29e95c2c4ced2194da48192d0e4db3e9, type: 3}
   m_PrefabInstance: {fileID: 519782180}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1444270084 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -4664402148864401395, guid: 29e95c2c4ced2194da48192d0e4db3e9, type: 3}
-  m_PrefabInstance: {fileID: 519782180}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1444270077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb1e05bfc315cd8479457af1fe3b7eb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1444270089
 MonoBehaviour:
   m_ObjectHideFlags: 0
