@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BuildingSystem : MonoBehaviour
 {
+    public static event Action OnAnyBuildingPointDisabled;
+
     [Header("Object Refs")]
     [SerializeField] private GameObject player;
     [SerializeField] private BuildingSystemUIManager buildingUIManager;
@@ -95,11 +97,10 @@ public class BuildingSystem : MonoBehaviour
         if (nearestPoint == null)
             return;
 
-        //TODO: Mover la validacion del requerimiento al player y prevenir directamente que muestre el canvas.
         if (playerStats.GetTurretBuildCount() < playerStats.GetTurretBuiltLimit())
         {
             playerStats.IncreaseTurretBuildCount();
-            //TODO: Una vez que se incrementa disparar el quest tracker q todavia no esta creado
+
             if (player.TryGetComponent(out PlayerXP playerXP))
             {
                 playerXP.RegisterTurretBuild();
@@ -110,6 +111,8 @@ public class BuildingSystem : MonoBehaviour
             Vector3 spawnPos = new Vector3(nearestPos.x, turret.transform.position.y, nearestPos.z);
 
             nearestPoint.SetActive(false);
+            OnAnyBuildingPointDisabled?.Invoke();
+
             Instantiate(turret, spawnPos, Quaternion.identity);
             buildingUIManager.CloseBuildMenu();
         }
